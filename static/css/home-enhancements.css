@@ -1,0 +1,495 @@
+/* File CSS bổ sung để cải thiện giao diện trang chủ */
+/* Giữ nguyên style.css gốc, chỉ thêm các cải tiến */
+
+/* Canh giữa button "Xem tất cả tours" */
+.text-center {
+  text-align: center !important;
+}
+
+.featured-tours .text-center {
+  margin-top: 2rem !important;
+  text-align: center !important;
+}
+
+/* Cải thiện Tour Grid */
+.tour-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)) !important;
+  gap: 2rem !important;
+  align-items: stretch !important;
+}
+
+/* Cải thiện Tour Cards */
+.tour-card {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
+  background-color: white !important;
+}
+
+.tour-card:hover {
+  transform: translateY(-8px) !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.tour-card-image {
+  position: relative !important;
+  height: 250px !important;
+  overflow: hidden !important;
+}
+
+.tour-card-image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  transition: transform 0.3s ease !important;
+}
+
+.tour-card:hover .tour-card-image img {
+  transform: scale(1.05) !important;
+}
+
+.tour-badge {
+  position: absolute !important;
+  top: 15px !important;
+  left: 15px !important;
+  z-index: 2 !important;
+}
+
+.badge {
+  padding: 6px 12px !important;
+  border-radius: 20px !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.badge-featured {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24) !important;
+  color: white !important;
+  box-shadow: 0 2px 8px rgba(238, 90, 36, 0.3) !important;
+}
+
+/* BỎ styling cho tour-card-category vì đã bỏ khỏi HTML */
+
+.tour-card-content {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 20px !important;
+}
+
+.tour-card-title {
+  margin-bottom: 12px !important;
+}
+
+.tour-card-title a {
+  color: var(--text-color) !important;
+  font-size: 1.2rem !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+  text-decoration: none !important;
+  transition: color 0.3s ease !important;
+}
+
+.tour-card-title a:hover {
+  color: var(--primary-color) !important;
+}
+
+.tour-description {
+  color: var(--text-light) !important;
+  font-size: 0.9rem !important;
+  line-height: 1.5 !important;
+  margin-bottom: 15px !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+.tour-card-info {
+  display: flex !important;
+  justify-content: space-between !important;
+  margin-bottom: 12px !important;
+  padding-bottom: 12px !important;
+  border-bottom: 1px solid #f0f0f0 !important;
+}
+
+.tour-card-location,
+.tour-card-duration {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  color: var(--text-light) !important;
+  font-size: 0.9rem !important;
+}
+
+.tour-card-location i,
+.tour-card-duration i {
+  color: var(--primary-color) !important;
+  font-size: 0.8rem !important;
+}
+
+.tour-card-rating {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 15px !important;
+}
+
+.stars {
+  display: flex !important;
+  gap: 2px !important;
+}
+
+.stars i {
+  color: #ffc107 !important;
+  font-size: 0.9rem !important;
+}
+
+.rating-text {
+  color: var(--text-light) !important;
+  font-size: 0.85rem !important;
+}
+
+.tour-card-price {
+  margin-top: auto !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.price-info {
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 4px !important;
+}
+
+.price-label {
+  color: var(--text-light) !important;
+  font-size: 0.85rem !important;
+}
+
+.price-amount {
+  color: #e74c3c !important;
+  font-size: 1.4rem !important;
+  font-weight: 700 !important;
+}
+
+.price-unit {
+  color: var(--text-light) !important;
+  font-size: 0.9rem !important;
+}
+
+/* Cải thiện Category Grid */
+.category-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+  gap: 2rem !important;
+}
+
+/* Cải thiện Category Cards */
+.category-card {
+  position: relative !important;
+  height: 280px !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer !important;
+}
+
+.category-card:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.category-image {
+  position: relative !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.category-image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  transition: transform 0.3s ease !important;
+}
+
+.category-card:hover .category-image img {
+  transform: scale(1.1) !important;
+}
+
+.category-overlay {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: linear-gradient(
+    135deg,
+    rgba(30, 136, 229, 0.8) 0%,
+    rgba(30, 136, 229, 0.6) 50%,
+    rgba(30, 136, 229, 0.8) 100%
+  ) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  color: white !important;
+  padding: 2rem !important;
+  transition: all 0.3s ease !important;
+  opacity: 0 !important;
+}
+
+.category-card:hover .category-overlay {
+  opacity: 1 !important;
+}
+
+.category-overlay h3 {
+  color: white !important;
+  font-size: 1.4rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 8px !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+.category-overlay p {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 0.95rem !important;
+  margin-bottom: 15px !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+.btn-explore {
+  background-color: white !important;
+  color: var(--primary-color) !important;
+  border: 2px solid white !important;
+  font-weight: 600 !important;
+  padding: 10px 20px !important;
+  border-radius: 25px !important;
+  transition: all 0.3s ease !important;
+  text-decoration: none !important;
+  display: inline-block !important;
+}
+
+.btn-explore:hover {
+  background-color: transparent !important;
+  color: white !important;
+  border-color: white !important;
+  transform: translateY(-2px) !important;
+}
+
+.category-card-content {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  padding: 1.5rem !important;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent) !important;
+  color: white !important;
+}
+
+.category-card-title {
+  color: white !important;
+  font-size: 1.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.category-card-count {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 0.9rem !important;
+  margin: 0 !important;
+}
+
+/* Cải thiện Testimonials */
+.testimonial-slider {
+  display: flex !important;
+  overflow-x: auto !important;
+  gap: 2rem !important;
+  padding: 1rem 0 !important;
+  scroll-snap-type: x mandatory !important;
+}
+
+.testimonial-card {
+  flex: 0 0 350px !important;
+  scroll-snap-align: start !important;
+  background-color: white !important;
+  border-radius: 12px !important;
+  padding: 25px !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.testimonial-rating {
+  margin-bottom: 15px !important;
+  text-align: center !important;
+}
+
+.testimonial-text {
+  font-style: italic !important;
+  color: var(--text-color) !important;
+  line-height: 1.6 !important;
+  margin-bottom: 20px !important;
+  text-align: center !important;
+  position: relative !important;
+}
+
+.testimonial-text::before {
+  content: '"' !important;
+  font-size: 3rem !important;
+  color: var(--primary-light) !important;
+  position: absolute !important;
+  top: -15px !important;
+  left: -10px !important;
+  opacity: 0.3 !important;
+}
+
+.testimonial-author {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+}
+
+.author-avatar {
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 3px solid #f0f0f0 !important;
+}
+
+.author-info {
+  text-align: left !important;
+}
+
+.author-name {
+  color: var(--text-color) !important;
+  font-weight: 600 !important;
+  margin-bottom: 4px !important;
+  font-size: 1rem !important;
+}
+
+.author-location {
+  color: var(--text-light) !important;
+  font-size: 0.85rem !important;
+  margin: 0 !important;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .tour-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 1.5rem !important;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+    gap: 1.5rem !important;
+  }
+
+  .testimonial-card {
+    flex: 0 0 300px !important;
+  }
+
+  .category-overlay {
+    padding: 1.5rem !important;
+  }
+
+  .testimonial-author {
+    flex-direction: column !important;
+    text-align: center !important;
+  }
+
+  .author-info {
+    text-align: center !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .tour-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .category-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .tour-card-content {
+    padding: 15px !important;
+  }
+
+  .category-overlay {
+    padding: 1rem !important;
+  }
+
+  .testimonial-card {
+    padding: 1.5rem !important;
+  }
+}
+
+/* Thêm animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tour-card,
+.category-card,
+.testimonial-card {
+  animation: fadeInUp 0.6s ease forwards !important;
+}
+
+.tour-card:nth-child(1) {
+  animation-delay: 0.1s !important;
+}
+.tour-card:nth-child(2) {
+  animation-delay: 0.2s !important;
+}
+.tour-card:nth-child(3) {
+  animation-delay: 0.3s !important;
+}
+.tour-card:nth-child(4) {
+  animation-delay: 0.4s !important;
+}
+.tour-card:nth-child(5) {
+  animation-delay: 0.5s !important;
+}
+.tour-card:nth-child(6) {
+  animation-delay: 0.6s !important;
+}
+
+.category-card:nth-child(1) {
+  animation-delay: 0.1s !important;
+}
+.category-card:nth-child(2) {
+  animation-delay: 0.2s !important;
+}
+.category-card:nth-child(3) {
+  animation-delay: 0.3s !important;
+}
+.category-card:nth-child(4) {
+  animation-delay: 0.4s !important;
+}
+.category-card:nth-child(5) {
+  animation-delay: 0.5s !important;
+}

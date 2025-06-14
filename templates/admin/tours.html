@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Tour - Admin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f6fa;
+            color: #333;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-header {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .add-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .add-btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .tours-table {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .table-header {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .search-box {
+            width: 300px;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status.active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.25rem 0.75rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-edit {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-view {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ddd;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .tours-table {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 800px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tour-detail {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .detail-group {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .detail-group h4 {
+            margin-bottom: 0.5rem;
+            color: #495057;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 0.5rem;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding: 0.25rem 0;
+        }
+
+        .detail-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-item span:first-child {
+            font-weight: 500;
+            color: #666;
+            min-width: 150px;
+        }
+
+        .detail-item span:last-child {
+            text-align: right;
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <header class="admin-header">
+        <div class="header-content">
+            <div>
+                <h1>🗺️ Quản lý Tour</h1>
+                <p>Thêm, sửa, xóa và quản lý tour du lịch</p>
+            </div>
+            <a href="/admin" class="back-btn">← Quay về Dashboard</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <div>
+                <h2>Danh sách Tour</h2>
+                <p>Quản lý tất cả tour du lịch trong hệ thống</p>
+            </div>
+            <button class="add-btn" onclick="openAddModal()">
+                ➕ Thêm Tour Mới
+            </button>
+        </div>
+
+        <div class="tours-table">
+            <div class="table-header">
+                <input type="text" class="search-box" placeholder="🔍 Tìm kiếm tour..." id="searchInput">
+            </div>
+            
+            <div id="tableContainer">
+                <div class="loading">
+                    <p>Đang tải dữ liệu...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal thêm/sửa tour -->
+    <div id="tourModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Thêm Tour Mới</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            
+            <form id="tourForm">
+                <input type="hidden" id="tourId">
+                
+                <div class="form-group">
+                    <label for="tenTour">Tên Tour *</label>
+                    <input type="text" id="tenTour" name="ten_tour" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="moTa">Mô tả</label>
+                    <textarea id="moTa" name="mo_ta"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="giaNguoiLon">Giá người lớn (VNĐ) *</label>
+                        <input type="number" id="giaNguoiLon" name="gia_nguoi_lon" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="giaTreEm">Giá trẻ em (VNĐ)</label>
+                        <input type="number" id="giaTreEm" name="gia_tre_em">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="diaDiemKhoiHanh">Điểm khởi hành *</label>
+                        <input type="text" id="diaDiemKhoiHanh" name="dia_diem_khoi_hanh" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="diaDiemDen">Điểm đến *</label>
+                        <input type="text" id="diaDiemDen" name="dia_diem_den" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="thoiGianTour">Thời gian tour *</label>
+                        <input type="text" id="thoiGianTour" name="thoi_gian_tour" placeholder="VD: 3 ngày 2 đêm" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="soNguoiToiDa">Số người tối đa</label>
+                        <input type="number" id="soNguoiToiDa" name="so_nguoi_toi_da">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ngayKhoiHanh">Ngày khởi hành *</label>
+                        <input type="date" id="ngayKhoiHanh" name="ngay_khoi_hanh" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ngayKetThuc">Ngày kết thúc *</label>
+                        <input type="date" id="ngayKetThuc" name="ngay_ket_thuc" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="trangThai">Trạng thái</label>
+                    <select id="trangThai" name="trang_thai">
+                        <option value="đang mở">Đang mở</option>
+                        <option value="tạm dừng">Tạm dừng</option>
+                        <option value="đã đóng">Đã đóng</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+                    <button type="button" onclick="closeModal()" style="background: #6c757d; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; cursor: pointer;">
+                        Hủy
+                    </button>
+                    <button type="submit" style="background: #007bff; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; cursor: pointer;">
+                        Lưu
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let tours = [];
+        let editingTourId = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTours();
+            
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                filterTours(e.target.value);
+            });
+
+            // Form submission
+            document.getElementById('tourForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveTour();
+            });
+        });
+
+        async function loadTours() {
+            try {
+                const response = await fetch('/api/admin/tours');
+                const data = await response.json();
+                
+                if (data.success) {
+                    tours = data.tours;
+                    renderToursTable(tours);
+                } else {
+                    showError('Không thể tải danh sách tour');
+                }
+            } catch (error) {
+                console.error('Error loading tours:', error);
+                showError('Có lỗi xảy ra khi tải dữ liệu');
+            }
+        }
+
+        function renderToursTable(toursData) {
+            const container = document.getElementById('tableContainer');
+            
+            if (toursData.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i>🗺️</i>
+                        <h3>Chưa có tour nào</h3>
+                        <p>Hãy thêm tour đầu tiên của bạn</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const tableHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên Tour</th>
+                            <th>Điểm đến</th>
+                            <th>Giá (VNĐ)</th>
+                            <th>Thời gian</th>
+                            <th>Trạng thái</th>
+                            <th>Đơn đặt</th>
+                            <th>Doanh thu</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${toursData.map(tour => `
+                            <tr>
+                                <td>#${tour.id}</td>
+                                <td>
+                                    <strong>${tour.ten_tour}</strong><br>
+                                    <small>${tour.dia_diem_khoi_hanh}</small>
+                                </td>
+                                <td>${tour.dia_diem_den}</td>
+                                <td>${formatCurrency(tour.gia_nguoi_lon)}</td>
+                                <td>${tour.thoi_gian_tour}</td>
+                                <td>
+                                    <span class="status ${tour.trang_thai === 'đang mở' ? 'active' : 'inactive'}">
+                                        ${tour.trang_thai}
+                                    </span>
+                                </td>
+                                <td>${tour.so_don_dat || 0}</td>
+                                <td>${formatCurrency(tour.doanh_thu || 0)}</td>
+                                <td>
+                                    <div class="action-btns">
+                                        <button class="btn btn-view" onclick="viewTour(${tour.id})" title="Xem chi tiết">
+                                            👁️
+                                        </button>
+                                        <button class="btn btn-edit" onclick="editTour(${tour.id})" title="Sửa">
+                                            ✏️
+                                        </button>
+                                        <button class="btn btn-delete" onclick="deleteTour(${tour.id})" title="Xóa">
+                                            🗑️
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            container.innerHTML = tableHTML;
+        }
+
+        function filterTours(searchTerm) {
+            const filtered = tours.filter(tour => 
+                tour.ten_tour.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                tour.dia_diem_den.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                tour.dia_diem_khoi_hanh.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            renderToursTable(filtered);
+        }
+
+        function openAddModal() {
+            editingTourId = null;
+            document.getElementById('modalTitle').textContent = 'Thêm Tour Mới';
+            document.getElementById('tourForm').reset();
+            document.getElementById('tourModal').style.display = 'block';
+        }
+
+        function editTour(tourId) {
+            const tour = tours.find(t => t.id === tourId);
+            if (!tour) return;
+
+            editingTourId = tourId;
+            document.getElementById('modalTitle').textContent = 'Sửa Tour';
+            
+            // Fill form with tour data
+            document.getElementById('tourId').value = tour.id;
+            document.getElementById('tenTour').value = tour.ten_tour;
+            document.getElementById('moTa').value = tour.mo_ta || '';
+            document.getElementById('giaNguoiLon').value = tour.gia_nguoi_lon;
+            document.getElementById('giaTreEm').value = tour.gia_tre_em || '';
+            document.getElementById('diaDiemKhoiHanh').value = tour.dia_diem_khoi_hanh;
+            document.getElementById('diaDiemDen').value = tour.dia_diem_den;
+            document.getElementById('thoiGianTour').value = tour.thoi_gian_tour;
+            document.getElementById('soNguoiToiDa').value = tour.so_nguoi_toi_da || '';
+            document.getElementById('ngayKhoiHanh').value = tour.ngay_khoi_hanh;
+            document.getElementById('ngayKetThuc').value = tour.ngay_ket_thuc;
+            document.getElementById('trangThai').value = tour.trang_thai;
+            
+            document.getElementById('tourModal').style.display = 'block';
+        }
+
+        async function saveTour() {
+            const formData = new FormData(document.getElementById('tourForm'));
+            const tourData = Object.fromEntries(formData.entries());
+
+            try {
+                const url = editingTourId ? `/api/admin/tours/${editingTourId}` : '/api/admin/tours';
+                const method = editingTourId ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(tourData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showSuccess(data.message);
+                    closeModal();
+                    loadTours(); // Reload the tours list
+                } else {
+                    showError(data.error || 'Có lỗi xảy ra');
+                }
+            } catch (error) {
+                console.error('Error saving tour:', error);
+                showError('Có lỗi xảy ra khi lưu tour');
+            }
+        }
+
+        async function deleteTour(tourId) {
+            if (!confirm('Bạn có chắc chắn muốn xóa tour này?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/admin/tours/${tourId}`, {
+                    method: 'DELETE'
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showSuccess(data.message);
+                    loadTours(); // Reload the tours list
+                } else {
+                    showError(data.error || 'Không thể xóa tour');
+                }
+            } catch (error) {
+                console.error('Error deleting tour:', error);
+                showError('Có lỗi xảy ra khi xóa tour');
+            }
+        }
+
+        function viewTour(tourId) {
+            const tour = tours.find(t => t.id === tourId);
+            if (!tour) return;
+
+            const detailHTML = `
+                <div class="detail-group">
+                    <h4>Thông tin cơ bản</h4>
+                    <div class="detail-item">
+                        <span>ID Tour:</span>
+                        <strong>#${tour.id}</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Tên tour:</span>
+                        <strong>${tour.ten_tour}</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Danh mục:</span>
+                        <span>${tour.ten_danh_muc || 'N/A'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Mô tả:</span>
+                        <span>${tour.mo_ta || 'Chưa có mô tả'}</span>
+                    </div>
+                </div>
+
+                <div class="detail-group">
+                    <h4>Thông tin giá và lịch trình</h4>
+                    <div class="detail-item">
+                        <span>Giá người lớn:</span>
+                        <strong>${formatCurrency(tour.gia_nguoi_lon)}</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Giá trẻ em:</span>
+                        <strong>${tour.gia_tre_em ? formatCurrency(tour.gia_tre_em) : 'N/A'}</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Điểm khởi hành:</span>
+                        <span>${tour.dia_diem_khoi_hanh}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Điểm đến:</span>
+                        <span>${tour.dia_diem_den}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Thời gian tour:</span>
+                        <span>${tour.thoi_gian_tour}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Ngày khởi hành:</span>
+                        <span>${formatDate(tour.ngay_khoi_hanh)}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Ngày kết thúc:</span>
+                        <span>${formatDate(tour.ngay_ket_thuc)}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Số người tối đa:</span>
+                        <span>${tour.so_nguoi_toi_da || 'Không giới hạn'}</span>
+                    </div>
+                </div>
+
+                <div class="detail-group">
+                    <h4>Thống kê</h4>
+                    <div class="detail-item">
+                        <span>Trạng thái:</span>
+                        <span class="status ${tour.trang_thai === 'đang mở' ? 'active' : 'inactive'}">
+                            ${tour.trang_thai}
+                        </span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Lượt xem:</span>
+                        <span>${tour.luot_xem || 0}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Số đơn đặt:</span>
+                        <strong>${tour.so_don_dat || 0}</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Số người đã đăng ký:</span>
+                        <span>${tour.so_nguoi_da_dang_ky || 0}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Doanh thu:</span>
+                        <strong>${formatCurrency(tour.doanh_thu || 0)}</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Ngày tạo:</span>
+                        <span>${formatDate(tour.ngay_tao)}</span>
+                    </div>
+                </div>
+            `;
+
+            // Sử dụng lại modal tour để hiển thị chi tiết
+            document.getElementById('modalTitle').textContent = 'Chi tiết Tour';
+            document.getElementById('tourForm').style.display = 'none';
+            
+            // Tạo container cho chi tiết nếu chưa có
+            let detailContainer = document.getElementById('tourDetail');
+            if (!detailContainer) {
+                detailContainer = document.createElement('div');
+                detailContainer.id = 'tourDetail';
+                detailContainer.className = 'tour-detail';
+                document.querySelector('.modal-content').appendChild(detailContainer);
+            }
+            
+            detailContainer.innerHTML = detailHTML;
+            detailContainer.style.display = 'block';
+            document.getElementById('tourModal').style.display = 'block';
+        }
+
+        // Cập nhật hàm formatDate
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            return new Date(dateString).toLocaleDateString('vi-VN');
+        }
+
+        // Cập nhật hàm closeModal để ẩn chi tiết
+        function closeModal() {
+            document.getElementById('tourModal').style.display = 'none';
+            document.getElementById('tourForm').style.display = 'block';
+            const detailContainer = document.getElementById('tourDetail');
+            if (detailContainer) {
+                detailContainer.style.display = 'none';
+            }
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(amount);
+        }
+
+        function showSuccess(message) {
+            alert('✅ ' + message);
+        }
+
+        function showError(message) {
+            alert('❌ ' + message);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('tourModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Giới thiệu - TravelVN</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="/static/css/style.css">
+<style>
+    /* Styles cho phần nội dung giới thiệu */
+    .about-section {
+        padding: 4rem 0;
+        background-color: #f8f9fa;
+    }
+
+    .about-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        margin-bottom: 4rem;
+        align-items: center;
+    }
+
+    .about-image {
+        position: relative;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .about-image::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 100%;
+        height: 100%;
+        border: 5px solid #ff7e00;
+        border-radius: 10px;
+        z-index: -1;
+    }
+
+    .about-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 10px;
+        transition: transform 0.5s ease;
+    }
+
+    .about-image:hover img {
+        transform: scale(1.05);
+    }
+
+    .about-text h2 {
+        font-size: 2.2rem;
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-bottom: 1rem;
+        color: #333;
+    }
+
+    .about-text h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 80px;
+        height: 3px;
+        background-color: #ff7e00;
+    }
+
+    .about-text p {
+        margin-bottom: 1.5rem;
+        color: #666;
+        line-height: 1.8;
+        font-size: 1.05rem;
+    }
+
+    /* Mission Vision */
+    .mission-vision {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin-bottom: 4rem;
+    }
+
+    .mission, .vision, .values {
+        background-color: white;
+        padding: 2.5rem 2rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .mission:hover, .vision:hover, .values:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .icon {
+        width: 90px;
+        height: 90px;
+        background-color: rgba(255, 126, 0, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+    }
+
+    .icon i {
+        font-size: 2.5rem;
+        color: #ff7e00;
+    }
+
+    .mission h3, .vision h3, .values h3 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+        color: #333;
+    }
+
+    .mission p, .vision p, .values p {
+        margin: 0;
+        color: #666;
+        line-height: 1.7;
+    }
+
+    /* Why Choose Us */
+    .why-choose-us {
+        margin-bottom: 4rem;
+        text-align: center;
+    }
+
+    .why-choose-us h2 {
+        font-size: 2.2rem;
+        margin-bottom: 3rem;
+        position: relative;
+        padding-bottom: 1rem;
+        display: inline-block;
+        color: #333;
+    }
+
+    .why-choose-us h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background-color: #ff7e00;
+    }
+
+    .features {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+
+    .feature {
+        background-color: white;
+        padding: 2.5rem 2rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .feature:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .feature-icon {
+        width: 70px;
+        height: 70px;
+        background-color: rgba(255, 126, 0, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+    }
+
+    .feature-icon i {
+        font-size: 2rem;
+        color: #ff7e00;
+    }
+
+    .feature h3 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+        color: #333;
+    }
+
+    .feature p {
+        margin: 0;
+        color: #666;
+        line-height: 1.7;
+    }
+
+    /* Team Section */
+    .team-section {
+        margin-bottom: 4rem;
+        text-align: center;
+    }
+
+    .team-section h2 {
+        font-size: 2.2rem;
+        margin-bottom: 0.5rem;
+        position: relative;
+        display: inline-block;
+        padding-bottom: 1rem;
+        color: #333;
+    }
+
+    .team-section h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background-color: #ff7e00;
+    }
+
+    .section-desc {
+        max-width: 700px;
+        margin: 0 auto 3rem;
+        color: #666;
+        font-size: 1.05rem;
+    }
+
+    .team-members {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+    }
+
+    .team-member {
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .team-member:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .member-image {
+        position: relative;
+        overflow: hidden;
+        height: 250px;
+    }
+
+    .member-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .team-member:hover .member-image img {
+        transform: scale(1.1);
+    }
+
+    .team-member h3 {
+        margin: 1.5rem 0 0.3rem;
+        font-size: 1.3rem;
+        color: #333;
+    }
+
+    .position {
+        color: #ff7e00;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        display: block;
+    }
+
+    .bio {
+        padding: 0 1.5rem;
+        margin-bottom: 1.5rem;
+        color: #666;
+        font-size: 0.95rem;
+        line-height: 1.7;
+    }
+
+    .team-member .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 0.8rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .team-member .social-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background-color: rgba(255, 126, 0, 0.1);
+        color: #ff7e00;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+
+    .team-member .social-links a:hover {
+        background-color: #ff7e00;
+        color: white;
+        transform: translateY(-3px);
+    }
+
+    /* Achievements */
+    .achievements {
+        margin-bottom: 4rem;
+        text-align: center;
+    }
+
+    .achievements h2 {
+        font-size: 2.2rem;
+        margin-bottom: 3rem;
+        position: relative;
+        padding-bottom: 1rem;
+        display: inline-block;
+        color: #333;
+    }
+
+    .achievements h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background-color: #ff7e00;
+    }
+
+    .achievement-stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .stat {
+        background-color: white;
+        padding: 2.5rem 2rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .stat:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #ff7e00;
+        margin-bottom: 0.5rem;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .stat-label {
+        color: #666;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    .awards h3 {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+        color: #333;
+    }
+
+    .award-list {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+    }
+
+    .award {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .award:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .award img {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+        margin-bottom: 1.5rem;
+    }
+
+    .award p {
+        margin: 0;
+        color: #666;
+        font-weight: 500;
+    }
+
+    /* Partners */
+    .partners {
+        margin-bottom: 4rem;
+        text-align: center;
+    }
+
+    .partners h2 {
+        font-size: 2.2rem;
+        margin-bottom: 3rem;
+        position: relative;
+        padding-bottom: 1rem;
+        display: inline-block;
+        color: #333;
+    }
+
+    .partners h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background-color: #ff7e00;
+    }
+
+    .partner-logos {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 2rem;
+        align-items: center;
+    }
+
+    .partner-logo {
+        background-color: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100px;
+    }
+
+    .partner-logo:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .partner-logo img {
+        max-width: 100%;
+        height: auto;
+        max-height: 60px;
+        filter: grayscale(100%);
+        opacity: 0.7;
+        transition: all 0.3s ease;
+    }
+
+    .partner-logo:hover img {
+        filter: grayscale(0);
+        opacity: 1;
+    }
+
+    /* CTA Section */
+    .cta {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/static/images/cta-bg.jpg');
+        background-size: cover;
+        background-position: center;
+        padding: 5rem 0;
+        text-align: center;
+        color: white;
+        margin-bottom: 0;
+        position: relative;
+    }
+
+    .cta-content h2 {
+        font-size: 2.5rem;
+        margin-top: 0;
+        margin-bottom: 1rem;
+        color: white;
+    }
+
+    .cta-content p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        opacity: 0.9;
+    }
+
+    .cta .btn-primary {
+        background-color: #ff7e00;
+        color: white;
+        border: 2px solid #ff7e00;
+        padding: 0.8rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+    }
+
+    .cta .btn-primary:hover {
+        background-color: transparent;
+        color: white;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 1200px) {
+        .partner-logos {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @media (max-width: 992px) {
+        .about-content {
+            grid-template-columns: 1fr;
+        }
+        
+        .about-image {
+            margin-bottom: 2rem;
+        }
+        
+        .mission-vision {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .features {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .team-members {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .achievement-stats {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .award-list {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .mission-vision {
+            grid-template-columns: 1fr;
+        }
+        
+        .features {
+            grid-template-columns: 1fr;
+        }
+        
+        .achievement-stats {
+            grid-template-columns: 1fr;
+        }
+        
+        .award-list {
+            grid-template-columns: 1fr;
+        }
+        
+        .partner-logos {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 576px) {
+        .team-members {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+    <div class="container">
+        <div class="logo">
+            <h1><a href="/">TravelVN</a></h1>
+        </div>
+        
+        <button class="mobile-menu-btn" id="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <nav class="main-nav">
+            <ul>
+                <li><a href="/">Trang chủ</a></li>
+                <li><a href="/tours">Tours</a></li>
+                <li><a href="/gioithieu" class="active">Giới thiệu</a></li>
+                <li><a href="/blog">Blog</a></li>
+                <li><a href="/lienhe">Liên hệ</a></li>
+            </ul>
+        </nav>
+        
+        <div class="user-actions">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Tìm kiếm tour...">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            
+            <div class="auth-buttons" id="auth-buttons">
+                <a href="/login" class="btn btn-outline">Đăng nhập</a>
+                <a href="/register" class="btn btn-primary">Đăng ký</a>
+            </div>
+            
+            <div class="user-menu" id="user-menu" style="display: none;">
+                <a href="#" id="user-dropdown">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="user-name">Tài khoản</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <div class="dropdown-menu" id="user-dropdown-menu">
+                    <a href="/profile"><i class="fas fa-user"></i> Tài khoản</a>
+                    <a href="/bookings"><i class="fas fa-list"></i> Đơn đặt tour</a>
+                    <a href="/wishlist"><i class="fas fa-heart"></i> Yêu thích</a>
+                    <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="container">
+        <h1>Giới thiệu về TravelVN</h1>
+        <div class="breadcrumb">
+            <a href="/">Trang chủ</a> / <span>Giới thiệu</span>
+        </div>
+    </div>
+</div>
+
+<!-- About Section -->
+<section class="about-section">
+    <div class="container">
+        <div class="about-content">
+            <div class="about-image">
+                <img src="/static/images/hero-2.jpg" alt="TravelVN Team">
+            </div>
+            
+            <div class="about-text">
+                <h2>Câu chuyện của chúng tôi</h2>
+                <p>TravelVN được thành lập vào năm 2015 với sứ mệnh mang đến những trải nghiệm du lịch tuyệt vời nhất cho người Việt Nam. Chúng tôi tin rằng mỗi chuyến đi không chỉ là một kỳ nghỉ, mà còn là cơ hội để khám phá, học hỏi và kết nối.</p>
+                
+                <p>Với đội ngũ nhân viên giàu kinh nghiệm và đam mê du lịch, chúng tôi cam kết mang đến cho khách hàng những dịch vụ chất lượng cao với giá cả hợp lý. Từ những tour du lịch trong nước đến các điểm đến quốc tế, TravelVN luôn đồng hành cùng bạn trên mọi hành trình.</p>
+                
+                <p>Qua nhiều năm hoạt động, chúng tôi đã phục vụ hơn 50,000 khách hàng và nhận được nhiều phản hồi tích cực. Điều này tiếp thêm động lực để chúng tôi không ngừng cải thiện và nâng cao chất lượng dịch vụ.</p>
+            </div>
+        </div>
+        
+        <div class="mission-vision">
+            <div class="mission">
+                <div class="icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <h3>Sứ mệnh</h3>
+                <p>Mang đến những trải nghiệm du lịch đáng nhớ và chất lượng cao cho mọi khách hàng, đồng thời góp phần phát triển ngành du lịch Việt Nam.</p>
+            </div>
+            
+            <div class="vision">
+                <div class="icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <h3>Tầm nhìn</h3>
+                <p>Trở thành công ty du lịch hàng đầu Việt Nam, được khách hàng tin tưởng và lựa chọn cho mọi hành trình du lịch.</p>
+            </div>
+            
+            <div class="values">
+                <div class="icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3>Giá trị cốt lõi
+</h3>
+                <p>Chất lượng, Tận tâm, Sáng tạo, Trách nhiệm và Phát triển bền vững là những giá trị cốt lõi mà chúng tôi luôn hướng đến.</p>
+            </div>
+        </div>
+        
+        <div class="why-choose-us">
+            <h2>Tại sao chọn TravelVN?</h2>
+            
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Đa dạng điểm đến</h3>
+                    <p>Chúng tôi cung cấp hàng trăm tour du lịch đến các điểm đến hấp dẫn trong và ngoài nước.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h3>Giá cả hợp lý</h3>
+                    <p>Cam kết mang đến cho bạn những tour du lịch chất lượng với giá cả phải chăng.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Hỗ trợ 24/7</h3>
+                    <p>Đội ngũ hỗ trợ của chúng tôi luôn sẵn sàng giúp đỡ bạn mọi lúc, mọi nơi.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>An toàn & Tin cậy</h3>
+                    <p>Chúng tôi đặt sự an toàn và trải nghiệm của khách hàng lên hàng đầu.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Đội ngũ chuyên nghiệp</h3>
+                    <p>Đội ngũ nhân viên giàu kinh nghiệm và đam mê du lịch, luôn sẵn sàng phục vụ bạn.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-thumbs-up"></i>
+                    </div>
+                    <h3>Trải nghiệm tuyệt vời</h3>
+                    <p>Chúng tôi cam kết mang đến những trải nghiệm du lịch đáng nhớ và tuyệt vời nhất.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="team-section">
+            <h2>Đội ngũ của chúng tôi</h2>
+            <p class="section-desc">Gặp gỡ những con người tài năng và đam mê đứng sau thành công của TravelVN</p>
+            
+            <div class="team-members">
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="/static/images/team/member-1.jpg" alt="Nguyễn Văn A">
+                    </div>
+                    <h3>Nguyễn Văn A</h3>
+                    <p class="position">Giám đốc điều hành</p>
+                    <p class="bio">Với hơn 15 năm kinh nghiệm trong ngành du lịch, anh A đã dẫn dắt TravelVN phát triển mạnh mẽ và bền vững.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="/static/images/team/member-2.jpg" alt="Trần Thị B">
+                    </div>
+                    <h3>Trần Thị B</h3>
+                    <p class="position">Giám đốc Marketing</p>
+                    <p class="bio">Chị B là người đứng sau những chiến dịch marketing thành công của TravelVN, giúp thương hiệu ngày càng được nhiều người biết đến.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="/static/images/team/member-3.jpg" alt="Lê Văn C">
+                    </div>
+                    <h3>Lê Văn C</h3>
+                    <p class="position">Giám đốc Sản phẩm</p>
+                    <p class="bio">Anh C là người phát triển và thiết kế các tour du lịch độc đáo và hấp dẫn của TravelVN, mang đến trải nghiệm tuyệt vời cho khách hàng.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="/static/images/team/member-4.jpg" alt="Phạm Thị D">
+                    </div>
+                    <h3>Phạm Thị D</h3>
+                    <p class="position">Giám đốc Dịch vụ Khách hàng</p>
+                    <p class="bio">Chị D và đội ngũ của mình luôn đảm bảo mọi khách hàng đều nhận được sự hỗ trợ tốt nhất và có trải nghiệm tuyệt vời với TravelVN.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="achievements">
+            <h2>Thành tựu của chúng tôi</h2>
+            
+            <div class="achievement-stats">
+                <div class="stat">
+                    <div class="stat-number">50,000+</div>
+                    <div class="stat-label">Khách hàng hài lòng</div>
+                </div>
+                
+                <div class="stat">
+                    <div class="stat-number">1,000+</div>
+                    <div class="stat-label">Tour đã tổ chức</div>
+                </div>
+                
+                <div class="stat">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">Điểm đến</div>
+                </div>
+                
+                <div class="stat">
+                    <div class="stat-number">20+</div>
+                    <div class="stat-label">Giải thưởng</div>
+                </div>
+            </div>
+            
+            <div class="awards">
+                <h3>Giải thưởng và Chứng nhận</h3>
+                
+                <div class="award-list">
+                    <div class="award">
+                        <img src="/static/images/awards/award-1.png" alt="Top 10 Công ty Du lịch Việt Nam">
+                        <p>Top 10 Công ty Du lịch Việt Nam 2022</p>
+                    </div>
+                    
+                    <div class="award">
+                        <img src="/static/images/awards/award-2.png" alt="Dịch vụ Xuất sắc">
+                        <p>Chứng nhận Dịch vụ Xuất sắc 2021</p>
+                    </div>
+                    
+                    <div class="award">
+                        <img src="/static/images/awards/award-3.png" alt="Thương hiệu Uy tín">
+                        <p>Thương hiệu Uy tín 2020</p>
+                    </div>
+                    
+                    <div class="award">
+                        <img src="/static/images/awards/award-4.png" alt="Doanh nghiệp Tiêu biểu">
+                        <p>Doanh nghiệp Tiêu biểu ngành Du lịch 2019</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="partners">
+            <h2>Đối tác của chúng tôi</h2>
+            
+            <div class="partner-logos">
+                <div class="partner-logo">
+                    <img src="/static/images/partners/partner-1.png" alt="Vietnam Airlines">
+                </div>
+                
+                <div class="partner-logo">
+                    <img src="/static/images/partners/partner-2.png" alt="Vinpearl">
+                </div>
+                
+                <div class="partner-logo">
+                    <img src="/static/images/partners/partner-3.png" alt="Vietcombank">
+                </div>
+                
+                <div class="partner-logo">
+                    <img src="/static/images/partners/partner-4.png" alt="Saigontourist">
+                </div>
+                
+                <div class="partner-logo">
+                    <img src="/static/images/partners/partner-5.png" alt="Bamboo Airways">
+                </div>
+                
+                <div class="partner-logo">
+                    <img src="/static/images/partners/partner-6.png" alt="Accor Hotels">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Sẵn sàng cho chuyến đi tiếp theo của bạn?</h2>
+            <p>Khám phá các tour du lịch hấp dẫn của chúng tôi và đặt ngay hôm nay</p>
+            <a href="/tours" class="btn btn-primary btn-large">Xem các tour</a>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>TravelVN</h3>
+                <p>Chúng tôi cung cấp các tour du lịch chất lượng cao với giá cả hợp lý, mang đến cho bạn những trải nghiệm du lịch đáng nhớ.</p>
+                
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Liên kết nhanh</h3>
+                <ul>
+                    <li><a href="/">Trang chủ</a></li>
+                    <li><a href="/tours">Tours</a></li>
+                    <li><a href="/gioithieu">Giới thiệu</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                    <li><a href="/lienhe">Liên hệ</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Loại tour</h3>
+                <ul>
+                    <li><a href="/tours?category=1">Tour trong nước</a></li>
+                    <li><a href="/tours?category=2">Tour nước ngoài</a></li>
+                    <li><a href="/tours?category=3">Tour nghỉ dưỡng</a></li>
+                    <li><a href="/tours?category=4">Tour mạo hiểm</a></li>
+                    <li><a href="/tours?category=5">Tour văn hóa</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Liên hệ</h3>
+                <ul class="contact-info">
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone"></i>
+                        <span>+84 123 456 789</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>info@travelvn.com</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2023 TravelVN. Tất cả quyền được bảo lưu.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="/static/js/main.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mainNav = document.querySelector('.main-nav');
+        
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function() {
+                mainNav.classList.toggle('active');
+            });
+        }
+        
+        // User dropdown toggle
+        const userDropdown = document.getElementById('user-dropdown');
+        const userDropdownMenu = document.getElementById('user-dropdown-menu');
+        
+        if (userDropdown && userDropdownMenu) {
+            userDropdown.addEventListener('click', function(e) {
+                e.preventDefault();
+                userDropdownMenu.style.display = userDropdownMenu.style.display === 'block' ? 'none' : 'block';
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!userDropdown.contains(e.target) && !userDropdownMenu.contains(e.target)) {
+                    userDropdownMenu.style.display = 'none';
+                }
+            });
+        }
+    });
+</script>
+<script src="/static/js/auth.js"></script>
+<script src="/static/js/direct-logout.js"></script>
+</body>
+</html>

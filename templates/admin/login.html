@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập Admin - TravelVN</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .admin-login-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .admin-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .admin-header i {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .admin-header h1 {
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .login-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .alert {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .alert-error {
+            background-color: #fee;
+            color: #c33;
+            border: 1px solid #fcc;
+        }
+        
+        .alert-success {
+            background-color: #efe;
+            color: #363;
+            border: 1px solid #cfc;
+        }
+        
+        .demo-accounts {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+        }
+        
+        .demo-accounts h4 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .demo-accounts p {
+            color: #666;
+            margin: 0.25rem 0;
+            cursor: pointer;
+        }
+        
+        .demo-accounts p:hover {
+            color: #667eea;
+        }
+        
+        .back-to-site {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .back-to-site a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-login-container">
+        <div class="admin-header">
+            <h1>🔐 Admin Panel</h1>
+            <p>Đăng nhập vào hệ thống quản trị TravelVN</p>
+        </div>
+
+        <div id="alert-container"></div>
+
+        <form id="adminLoginForm">
+            <div class="form-group">
+                <label for="username">Tên đăng nhập hoặc Email</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <button type="submit" class="login-btn" id="loginBtn">
+                Đăng nhập
+            </button>
+        </form>
+
+        <div class="demo-accounts">
+            <h4>Tài khoản demo:</h4>
+            <p onclick="fillLogin('admin', 'admin123')"><strong>Super Admin:</strong> admin / admin123</p>
+            <p onclick="fillLogin('manager', 'manager123')"><strong>Manager:</strong> manager / manager123</p>
+            <p onclick="fillLogin('staff', 'staff123')"><strong>Staff:</strong> staff / staff123</p>
+        </div>
+
+        <div class="back-to-site">
+            <a href="/">← Quay về trang chủ</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('adminLoginForm');
+            const loginBtn = document.getElementById('loginBtn');
+            const alertContainer = document.getElementById('alert-container');
+
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value;
+
+                if (!username || !password) {
+                    showAlert('Vui lòng nhập đầy đủ thông tin', 'error');
+                    return;
+                }
+
+                loginBtn.disabled = true;
+                loginBtn.textContent = 'Đang xử lý...';
+
+                try {
+                    const response = await fetch('/api/admin/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            username: username,
+                            password: password
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        showAlert('Đăng nhập thành công! Đang chuyển hướng...', 'success');
+                        setTimeout(() => {
+                            window.location.href = data.redirect || '/admin';
+                        }, 1000);
+                    } else {
+                        showAlert(data.error || 'Đăng nhập thất bại', 'error');
+                    }
+                } catch (error) {
+                    console.error('Lỗi:', error);
+                    showAlert('Có lỗi xảy ra. Vui lòng thử lại.', 'error');
+                } finally {
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = 'Đăng nhập';
+                }
+            });
+
+            function showAlert(message, type) {
+                alertContainer.innerHTML = `
+                    <div class="alert alert-${type}">
+                        ${message}
+                    </div>
+                `;
+
+                setTimeout(() => {
+                    alertContainer.innerHTML = '';
+                }, 5000);
+            }
+
+            window.showAlert = showAlert;
+        });
+
+        function fillLogin(username, password) {
+            document.getElementById('username').value = username;
+            document.getElementById('password').value = password;
+        }
+    </script>
+</body>
+</html>

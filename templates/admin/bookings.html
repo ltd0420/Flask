@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Đơn đặt tour - Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f6fa;
+            color: #333;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-header {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .bookings-table {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .table-header {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-box {
+            width: 300px;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        .export-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+            position: sticky;
+            top: 0;
+        }
+
+        .status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status.confirmed {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status.paid {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status.completed {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.25rem 0.75rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-view {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn-edit {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .booking-detail {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .detail-group {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .detail-group h4 {
+            margin-bottom: 0.5rem;
+            color: #495057;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ddd;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .table-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .bookings-table {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 1000px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="admin-header">
+        <div class="header-content">
+            <div>
+                <h1>📅 Quản lý Đơn đặt tour</h1>
+                <p>Duyệt, hủy và theo dõi tình trạng đơn đặt tour</p>
+            </div>
+            <a href="/admin" class="back-btn">← Quay về Dashboard</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>Danh sách Đơn đặt tour</h2>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label>Trạng thái</label>
+                    <select id="statusFilter">
+                        <option value="">Tất cả</option>
+                        <option value="chờ xác nhận">Chờ xác nhận</option>
+                        <option value="đã xác nhận">Đã xác nhận</option>
+                        <option value="đã thanh toán">Đã thanh toán</option>
+                        <option value="đã hủy">Đã hủy</option>
+                        <option value="hoàn thành">Hoàn thành</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label>Từ ngày</label>
+                    <input type="date" id="fromDate">
+                </div>
+                
+                <div class="filter-group">
+                    <label>Đến ngày</label>
+                    <input type="date" id="toDate">
+                </div>
+            </div>
+        </div>
+
+        <div class="bookings-table">
+            <div class="table-header">
+                <input type="text" class="search-box" placeholder="🔍 Tìm kiếm theo tên khách hàng, tour..." id="searchInput">
+                <button class="export-btn" onclick="exportBookings()">📊 Xuất Excel</button>
+            </div>
+            
+            <div id="tableContainer">
+                <div class="loading">
+                    <p>Đang tải dữ liệu...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal chi tiết đơn đặt -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Chi tiết Đơn đặt tour</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            
+            <div id="bookingDetail" class="booking-detail">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal cập nhật trạng thái -->
+    <div id="statusModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Cập nhật Trạng thái</h3>
+                <span class="close" onclick="closeStatusModal()">&times;</span>
+            </div>
+            
+            <form id="statusForm">
+                <input type="hidden" id="bookingId">
+                
+                <div style="margin-bottom: 1rem;">
+                    <label for="newStatus" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Trạng thái mới:</label>
+                    <select id="newStatus" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px;">
+                        <option value="chờ xác nhận">Chờ xác nhận</option>
+                        <option value="đã xác nhận">Đã xác nhận</option>
+                        <option value="đã thanh toán">Đã thanh toán</option>
+                        <option value="đã hủy">Đã hủy</option>
+                        <option value="hoàn thành">Hoàn thành</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                    <button type="button" onclick="closeStatusModal()" style="background: #6c757d; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; cursor: pointer;">
+                        Hủy
+                    </button>
+                    <button type="submit" style="background: #007bff; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; cursor: pointer;">
+                        Cập nhật
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let bookings = [];
+        let filteredBookings = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBookings();
+            
+            // Filter event listeners
+            document.getElementById('statusFilter').addEventListener('change', applyFilters);
+            document.getElementById('fromDate').addEventListener('change', applyFilters);
+            document.getElementById('toDate').addEventListener('change', applyFilters);
+            document.getElementById('searchInput').addEventListener('input', applyFilters);
+
+            // Status form submission
+            document.getElementById('statusForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                updateBookingStatus();
+            });
+        });
+
+        async function loadBookings() {
+            try {
+                const response = await fetch('/api/admin/bookings');
+                const data = await response.json();
+                
+                if (data.success) {
+                    bookings = data.bookings;
+                    filteredBookings = [...bookings];
+                    renderBookingsTable(filteredBookings);
+                } else {
+                    showError('Không thể tải danh sách đơn đặt tour');
+                }
+            } catch (error) {
+                console.error('Error loading bookings:', error);
+                showError('Có lỗi xảy ra khi tải dữ liệu');
+            }
+        }
+
+        function renderBookingsTable(bookingsData) {
+            const container = document.getElementById('tableContainer');
+            
+            if (bookingsData.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-calendar"></i>
+                        <h3>Không có đơn đặt tour nào</h3>
+                        <p>Chưa có đơn đặt tour phù hợp với bộ lọc</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const tableHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã đơn</th>
+                            <th>Khách hàng</th>
+                            <th>Tour</th>
+                            <th>Ngày đặt</th>
+                            <th>Số người</th>
+                            <th>Tổng tiền</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${bookingsData.map(booking => `
+                            <tr>
+                                <td><strong>#${booking.id}</strong></td>
+                                <td>
+                                    <strong>${booking.ho_ten}</strong><br>
+                                    <small>${booking.email}</small><br>
+                                    <small>${booking.so_dien_thoai || 'N/A'}</small>
+                                </td>
+                                <td>
+                                    <strong>${booking.ten_tour}</strong><br>
+                                    <small><i class="fas fa-map-marker-alt"></i> ${booking.dia_diem_den || 'N/A'}</small>
+                                </td>
+                                <td>${formatDate(booking.ngay_dat)}</td>
+                                <td>
+                                    ${booking.so_nguoi_lon} người lớn<br>
+                                    ${booking.so_tre_em || 0} trẻ em
+                                </td>
+                                <td><strong>${formatCurrency(booking.tong_tien)}</strong></td>
+                                <td>
+                                    <span class="status ${getStatusClass(booking.trang_thai)}">
+                                        ${booking.trang_thai}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="action-btns">
+                                        <button class="btn btn-view" onclick="viewBooking(${booking.id})" title="Xem chi tiết">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-edit" onclick="editBookingStatus(${booking.id})" title="Cập nhật trạng thái">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            container.innerHTML = tableHTML;
+        }
+
+        function applyFilters() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const fromDate = document.getElementById('fromDate').value;
+            const toDate = document.getElementById('toDate').value;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+            filteredBookings = bookings.filter(booking => {
+                // Status filter
+                if (statusFilter && booking.trang_thai !== statusFilter) {
+                    return false;
+                }
+
+                // Date filter
+                const bookingDate = new Date(booking.ngay_dat);
+                if (fromDate && bookingDate < new Date(fromDate)) {
+                    return false;
+                }
+                if (toDate && bookingDate > new Date(toDate)) {
+                    return false;
+                }
+
+                // Search filter
+                if (searchTerm) {
+                    const searchFields = [
+                        booking.ho_ten,
+                        booking.email,
+                        booking.ten_tour,
+                        booking.id.toString()
+                    ].join(' ').toLowerCase();
+                    
+                    if (!searchFields.includes(searchTerm)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+
+            renderBookingsTable(filteredBookings);
+        }
+
+        function viewBooking(bookingId) {
+            const booking = bookings.find(b => b.id === bookingId);
+            if (!booking) return;
+
+            const detailHTML = `
+                <div class="detail-group">
+                    <h4>Thông tin đơn đặt</h4>
+                    <div class="detail-item">
+                        <span>Mã đơn:</span>
+                        <strong>#${booking.id}</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Ngày đặt:</span>
+                        <span>${formatDateTime(booking.ngay_dat)}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Trạng thái:</span>
+                        <span class="status ${getStatusClass(booking.trang_thai)}">${booking.trang_thai}</span>
+                    </div>
+                </div>
+
+                <div class="detail-group">
+                    <h4>Thông tin khách hàng</h4>
+                    <div class="detail-item">
+                        <span>Họ tên:</span>
+                        <strong>${booking.ho_ten}</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Email:</span>
+                        <span>${booking.email}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Số điện thoại:</span>
+                        <span>${booking.so_dien_thoai || 'N/A'}</span>
+                    </div>
+                </div>
+
+                <div class="detail-group">
+                    <h4>Thông tin tour</h4>
+                    <div class="detail-item">
+                        <span>Tên tour:</span>
+                        <strong>${booking.ten_tour}</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Điểm đến:</span>
+                        <span>${booking.dia_diem_den || 'N/A'}</span>
+                    </div>
+                </div>
+
+                <div class="detail-group">
+                    <h4>Chi tiết đặt tour</h4>
+                    <div class="detail-item">
+                        <span>Số người lớn:</span>
+                        <span>${booking.so_nguoi_lon}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Số trẻ em:</span>
+                        <span>${booking.so_tre_em || 0}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Tổng tiền:</span>
+                        <strong>${formatCurrency(booking.tong_tien)}</strong>
+                    </div>
+                    ${booking.ghi_chu ? `
+                    <div class="detail-item">
+                        <span>Ghi chú:</span>
+                        <span>${booking.ghi_chu}</span>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+
+            document.getElementById('bookingDetail').innerHTML = detailHTML;
+            document.getElementById('bookingModal').style.display = 'block';
+        }
+
+        function editBookingStatus(bookingId) {
+            const booking = bookings.find(b => b.id === bookingId);
+            if (!booking) return;
+
+            document.getElementById('bookingId').value = bookingId;
+            document.getElementById('newStatus').value = booking.trang_thai;
+            document.getElementById('statusModal').style.display = 'block';
+        }
+
+        async function updateBookingStatus() {
+            const bookingId = document.getElementById('bookingId').value;
+            const newStatus = document.getElementById('newStatus').value;
+
+            try {
+                const response = await fetch(`/api/admin/bookings/${bookingId}/status`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        trang_thai: newStatus
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showSuccess(data.message);
+                    closeStatusModal();
+                    loadBookings(); // Reload the bookings list
+                } else {
+                    showError(data.error || 'Có lỗi xảy ra');
+                }
+            } catch (error) {
+                console.error('Error updating booking status:', error);
+                showError('Có lỗi xảy ra khi cập nhật trạng thái');
+            }
+        }
+
+        function exportBookings() {
+            // Simple CSV export
+            const csvContent = [
+                ['Mã đơn', 'Khách hàng', 'Email', 'Tour', 'Ngày đặt', 'Số người lớn', 'Số trẻ em', 'Tổng tiền', 'Trạng thái'],
+                ...filteredBookings.map(booking => [
+                    booking.id,
+                    booking.ho_ten,
+                    booking.email,
+                    booking.ten_tour,
+                    formatDate(booking.ngay_dat),
+                    booking.so_nguoi_lon,
+                    booking.so_tre_em || 0,
+                    booking.tong_tien,
+                    booking.trang_thai
+                ])
+            ].map(row => row.join(',')).join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `don-dat-tour-${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+        }
+
+        function closeModal() {
+            document.getElementById('bookingModal').style.display = 'none';
+        }
+
+        function closeStatusModal() {
+            document.getElementById('statusModal').style.display = 'none';
+        }
+
+        function getStatusClass(status) {
+            const statusMap = {
+                'chờ xác nhận': 'pending',
+                'đã xác nhận': 'confirmed',
+                'đã thanh toán': 'paid',
+                'đã hủy': 'cancelled',
+                'hoàn thành': 'completed'
+            };
+            return statusMap[status] || 'pending';
+        }
+
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString('vi-VN');
+        }
+
+        function formatDateTime(dateString) {
+            return new Date(dateString).toLocaleString('vi-VN');
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(amount);
+        }
+
+        function showSuccess(message) {
+            alert('✅ ' + message);
+        }
+
+        function showError(message) {
+            alert('❌ ' + message);
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const bookingModal = document.getElementById('bookingModal');
+            const statusModal = document.getElementById('statusModal');
+            
+            if (event.target === bookingModal) {
+                closeModal();
+            }
+            if (event.target === statusModal) {
+                closeStatusModal();
+            }
+        }
+    </script>
+</body>
+</html>

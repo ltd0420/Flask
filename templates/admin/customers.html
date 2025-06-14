@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Khách hàng - Admin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f6fa;
+            color: #333;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-header {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-card .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .customers-table {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .table-header {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-box {
+            width: 300px;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        .export-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .customer-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .customer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .customer-details h4 {
+            margin-bottom: 0.25rem;
+            color: #333;
+        }
+
+        .customer-details p {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.25rem 0.75rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-view {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn-history {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .customer-detail {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .detail-group {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .detail-group h4 {
+            margin-bottom: 0.5rem;
+            color: #495057;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .booking-history {
+            margin-top: 1rem;
+        }
+
+        .booking-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .booking-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .booking-title {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .booking-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status.confirmed {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status.paid {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status.completed {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+
+        .booking-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ddd;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .table-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .customers-table {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 800px;
+            }
+
+            .customer-info {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="admin-header">
+        <div class="header-content">
+            <div>
+                <h1>👥 Quản lý Khách hàng</h1>
+                <p>Xem thông tin khách hàng và lịch sử đặt tour</p>
+            </div>
+            <a href="/admin" class="back-btn">← Quay về Dashboard</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>Thống kê Khách hàng</h2>
+        </div>
+
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="number" id="totalCustomers">-</div>
+                <div class="label">Tổng khách hàng</div>
+            </div>
+            <div class="stat-card">
+                <div class="number" id="newCustomers">-</div>
+                <div class="label">Khách hàng mới (tháng này)</div>
+            </div>
+            <div class="stat-card">
+                <div class="number" id="activeCustomers">-</div>
+                <div class="label">Khách hàng có đặt tour</div>
+            </div>
+            <div class="stat-card">
+                <div class="number" id="totalRevenue">-</div>
+                <div class="label">Tổng doanh thu</div>
+            </div>
+        </div>
+
+        <div class="customers-table">
+            <div class="table-header">
+                <input type="text" class="search-box" placeholder="🔍 Tìm kiếm khách hàng..." id="searchInput">
+                <button class="export-btn" onclick="exportCustomers()">📊 Xuất Excel</button>
+            </div>
+            
+            <div id="tableContainer">
+                <div class="loading">
+                    <p>Đang tải dữ liệu...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal chi tiết khách hàng -->
+    <div id="customerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Chi tiết Khách hàng</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            
+            <div id="customerDetail" class="customer-detail">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let customers = [];
+        let filteredCustomers = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCustomers();
+            
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                filterCustomers(e.target.value);
+            });
+        });
+
+        async function loadCustomers() {
+            try {
+                const response = await fetch('/api/admin/customers');
+                const data = await response.json();
+                
+                if (data.success) {
+                    customers = data.customers;
+                    filteredCustomers = [...customers];
+                    renderCustomersTable(filteredCustomers);
+                    updateStats();
+                } else {
+                    showError('Không thể tải danh sách khách hàng');
+                }
+            } catch (error) {
+                console.error('Error loading customers:', error);
+                showError('Có lỗi xảy ra khi tải dữ liệu');
+            }
+        }
+
+        function updateStats() {
+            const totalCustomers = customers.length;
+            const activeCustomers = customers.filter(c => c.so_don_dat > 0).length;
+            const totalRevenue = customers.reduce((sum, c) => sum + (c.tong_chi_tieu || 0), 0);
+            
+            // Calculate new customers this month
+            const thisMonth = new Date().toISOString().slice(0, 7);
+            const newCustomers = customers.filter(c => 
+                c.ngay_tao && c.ngay_tao.startsWith(thisMonth)
+            ).length;
+
+            document.getElementById('totalCustomers').textContent = totalCustomers;
+            document.getElementById('newCustomers').textContent = newCustomers;
+            document.getElementById('activeCustomers').textContent = activeCustomers;
+            document.getElementById('totalRevenue').textContent = formatCurrency(totalRevenue);
+        }
+
+        function renderCustomersTable(customersData) {
+            const container = document.getElementById('tableContainer');
+            
+            if (customersData.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i>👥</i>
+                        <h3>Không có khách hàng nào</h3>
+                        <p>Chưa có khách hàng phù hợp với tìm kiếm</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const tableHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Khách hàng</th>
+                            <th>Liên hệ</th>
+                            <th>Ngày đăng ký</th>
+                            <th>Số đơn đặt</th>
+                            <th>Tổng chi tiêu</th>
+                            <th>Lần đặt cuối</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${customersData.map(customer => `
+                            <tr>
+                                <td>
+                                    <div class="customer-info">
+                                        <div class="customer-avatar">
+                                            ${customer.ho_ten.charAt(0).toUpperCase()}
+                                        </div>
+                                        <div class="customer-details">
+                                            <h4>${customer.ho_ten}</h4>
+                                            <p>ID: #${customer.id}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <strong>${customer.email}</strong><br>
+                                    <small>${customer.so_dien_thoai || 'N/A'}</small>
+                                </td>
+                                <td>${formatDate(customer.ngay_tao)}</td>
+                                <td><strong>${customer.so_don_dat || 0}</strong></td>
+                                <td><strong>${formatCurrency(customer.tong_chi_tieu || 0)}</strong></td>
+                                <td>${customer.lan_dat_cuoi ? formatDate(customer.lan_dat_cuoi) : 'Chưa đặt'}</td>
+                                <td>
+                                    <div class="action-btns">
+                                        <button class="btn btn-view" onclick="viewCustomer(${customer.id})" title="Xem chi tiết">
+                                            👁️
+                                        </button>
+                                        <button class="btn btn-history" onclick="viewBookingHistory(${customer.id})" title="Lịch sử đặt tour">
+                                            📋
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            container.innerHTML = tableHTML;
+        }
+
+        function filterCustomers(searchTerm) {
+            filteredCustomers = customers.filter(customer => 
+                customer.ho_ten.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                customer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                (customer.so_dien_thoai && customer.so_dien_thoai.includes(searchTerm))
+            );
+            renderCustomersTable(filteredCustomers);
+        }
+
+        async function viewCustomer(customerId) {
+            const customer = customers.find(c => c.id === customerId);
+            if (!customer) return;
+
+            const detailHTML = `
+                <div class="detail-group">
+                    <h4>Thông tin cá nhân</h4>
+                    <div class="detail-item">
+                        <span>Họ tên:</span>
+                        <strong>${customer.ho_ten}</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Email:</span>
+                        <span>${customer.email}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Số điện thoại:</span>
+                        <span>${customer.so_dien_thoai || 'N/A'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Địa chỉ:</span>
+                        <span>${customer.dia_chi || 'N/A'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Ngày sinh:</span>
+                        <span>${customer.ngay_sinh ? formatDate(customer.ngay_sinh) : 'N/A'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Giới tính:</span>
+                        <span>${customer.gioi_tinh || 'N/A'}</span>
+                    </div>
+                </div>
+
+                <div class="detail-group">
+                    <h4>Thống kê hoạt động</h4>
+                    <div class="detail-item">
+                        <span>Ngày đăng ký:</span>
+                        <span>${formatDate(customer.ngay_tao)}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Số đơn đặt tour:</span>
+                        <strong>${customer.so_don_dat || 0}</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Tổng chi tiêu:</span>
+                        <strong>${formatCurrency(customer.tong_chi_tieu || 0)}</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Lần đặt tour cuối:</span>
+                        <span>${customer.lan_dat_cuoi ? formatDate(customer.lan_dat_cuoi) : 'Chưa đặt'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Trạng thái:</span>
+                        <span style="color: ${customer.trang_thai === 'active' ? 'green' : 'red'}">
+                            ${customer.trang_thai === 'active' ? 'Hoạt động' : 'Không hoạt động'}
+                        </span>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('customerDetail').innerHTML = detailHTML;
+            document.getElementById('customerModal').style.display = 'block';
+        }
+
+        async function viewBookingHistory(customerId) {
+            try {
+                const response = await fetch(`/api/admin/customers/${customerId}/bookings`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const customer = customers.find(c => c.id === customerId);
+                    const bookings = data.bookings;
+
+                    let bookingHistoryHTML = '';
+                    if (bookings.length === 0) {
+                        bookingHistoryHTML = '<p style="text-align: center; color: #666; padding: 2rem;">Khách hàng chưa có đơn đặt tour nào</p>';
+                    } else {
+                        bookingHistoryHTML = bookings.map(booking => `
+                            <div class="booking-item">
+                                <div class="booking-header">
+                                    <div class="booking-title">${booking.ten_tour}</div>
+                                    <div class="booking-status status ${getStatusClass(booking.trang_thai)}">
+                                        ${booking.trang_thai}
+                                    </div>
+                                </div>
+                                <div class="booking-info">
+                                    <div><strong>Mã đơn:</strong> #${booking.id}</div>
+                                    <div><strong>Ngày đặt:</strong> ${formatDate(booking.ngay_dat)}</div>
+                                    <div><strong>Điểm đến:</strong> ${booking.dia_diem_den}</div>
+                                    <div><strong>Ngày khởi hành:</strong> ${formatDate(booking.ngay_khoi_hanh)}</div>
+                                    <div><strong>Số người:</strong> ${booking.so_nguoi_lon + (booking.so_tre_em || 0)}</div>
+                                    <div><strong>Tổng tiền:</strong> ${formatCurrency(booking.tong_tien)}</div>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+
+                    const detailHTML = `
+                        <div class="detail-group">
+                            <h4>Thông tin khách hàng</h4>
+                            <div class="detail-item">
+                                <span>Họ tên:</span>
+                                <strong>${customer.ho_ten}</strong>
+                            </div>
+                            <div class="detail-item">
+                                <span>Email:</span>
+                                <span>${customer.email}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>Tổng đơn đặt:</span>
+                                <strong>${bookings.length}</strong>
+                            </div>
+                        </div>
+
+                        <div class="booking-history">
+                            <h4 style="margin-bottom: 1rem;">Lịch sử đặt tour</h4>
+                            ${bookingHistoryHTML}
+                        </div>
+                    `;
+
+                    document.getElementById('customerDetail').innerHTML = detailHTML;
+                    document.getElementById('customerModal').style.display = 'block';
+                } else {
+                    showError('Không thể tải lịch sử đặt tour');
+                }
+            } catch (error) {
+                console.error('Error loading booking history:', error);
+                showError('Có lỗi xảy ra khi tải lịch sử đặt tour');
+            }
+        }
+
+        function exportCustomers() {
+            // Simple CSV export
+            const csvContent = [
+                ['ID', 'Họ tên', 'Email', 'Số điện thoại', 'Địa chỉ', 'Ngày đăng ký', 'Số đơn đặt', 'Tổng chi tiêu', 'Trạng thái'],
+                ...filteredCustomers.map(customer => [
+                    customer.id,
+                    customer.ho_ten,
+                    customer.email,
+                    customer.so_dien_thoai || '',
+                    customer.dia_chi || '',
+                    formatDate(customer.ngay_tao),
+                    customer.so_don_dat || 0,
+                    customer.tong_chi_tieu || 0,
+                    customer.trang_thai
+                ])
+            ].map(row => row.join(',')).join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `khach-hang-${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+        }
+
+        function closeModal() {
+            document.getElementById('customerModal').style.display = 'none';
+        }
+
+        function getStatusClass(status) {
+            const statusMap = {
+                'chờ xác nhận': 'pending',
+                'đã xác nhận': 'confirmed',
+                'đã thanh toán': 'paid',
+                'đã hủy': 'cancelled',
+                'hoàn thành': 'completed'
+            };
+            return statusMap[status] || 'pending';
+        }
+
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString('vi-VN');
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(amount);
+        }
+
+        function showError(message) {
+            alert('❌ ' + message);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('customerModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

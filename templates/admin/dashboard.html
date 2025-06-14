@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - TravelVN</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f6fa;
+            color: #333;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header-left h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .header-left p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .admin-info {
+            text-align: right;
+        }
+
+        .admin-info .name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .admin-info .role {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .welcome-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .welcome-section h2 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .welcome-section p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card.tours .icon { color: #3498db; }
+        .stat-card.customers .icon { color: #e74c3c; }
+        .stat-card.bookings .icon { color: #f39c12; }
+        .stat-card.revenue .icon { color: #27ae60; }
+
+        .stat-card .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .action-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .action-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            color: #333;
+        }
+
+        .action-card .icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .action-card h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .action-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 0 1rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .quick-actions {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="admin-header">
+        <div class="header-content">
+            <div class="header-left">
+                <h1>🏠 Admin Dashboard</h1>
+                <p>Hệ thống quản trị TravelVN</p>
+            </div>
+            <div class="header-right">
+                <div class="admin-info">
+                    <div class="name">{{ admin.ho_ten }}</div>
+                    <div class="role">{{ admin.vai_tro|title }}</div>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    Đăng xuất
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="admin-container">
+        <div class="welcome-section">
+            <h2>Chào mừng, {{ admin.ho_ten }}!</h2>
+            <p>Quản lý hệ thống du lịch TravelVN một cách hiệu quả</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card tours">
+                <div class="icon">🗺️</div>
+                <div class="number" id="totalTours">9</div>
+                <div class="label">Tổng số tour</div>
+            </div>
+            <div class="stat-card customers">
+                <div class="icon">👥</div>
+                <div class="number" id="totalCustomers">5</div>
+                <div class="label">Khách hàng</div>
+            </div>
+            <div class="stat-card bookings">
+                <div class="icon">📅</div>
+                <div class="number" id="totalBookings">3</div>
+                <div class="label">Đơn đặt tour</div>
+            </div>
+            <div class="stat-card revenue">
+                <div class="icon">💰</div>
+                <div class="number" id="totalRevenue">15M</div>
+                <div class="label">Doanh thu (VNĐ)</div>
+            </div>
+        </div>
+
+        <h3 style="margin-bottom: 1rem; color: #333;">Quản lý nhanh:</h3>
+        <div class="quick-actions">
+            <a href="/admin/tours" class="action-card">
+                <div class="icon">🗺️</div>
+                <h3>Quản lý Tour</h3>
+                <p>Thêm, sửa, xóa tour du lịch</p>
+            </a>
+            <a href="/admin/customers" class="action-card">
+                <div class="icon">👥</div>
+                <h3>Quản lý Khách hàng</h3>
+                <p>Xem thông tin khách hàng</p>
+            </a>
+            <a href="/admin/bookings" class="action-card">
+                <div class="icon">📅</div>
+                <h3>Quản lý Đặt tour</h3>
+                <p>Xử lý đơn đặt tour</p>
+            </a>
+            <a href="/admin/reviews" class="action-card">
+                <div class="icon">⭐</div>
+                <h3>Đánh giá</h3>
+                <p>Quản lý đánh giá tour</p>
+            </a>
+            <a href="/admin/reports" class="action-card">
+                <div class="icon">📊</div>
+                <h3>Báo cáo</h3>
+                <p>Thống kê và báo cáo</p>
+            </a>
+            <a href="#" class="action-card">
+                <div class="icon">⚙️</div>
+                <h3>Cài đặt</h3>
+                <p>Cấu hình hệ thống</p>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        async function logout() {
+            if (confirm('Bạn có chắc chắn muốn đăng xuất?')) {
+                try {
+                    const response = await fetch('/api/admin/logout');
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        window.location.href = '/admin/login';
+                    }
+                } catch (error) {
+                    console.error('Lỗi khi đăng xuất:', error);
+                    alert('Có lỗi xảy ra khi đăng xuất');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

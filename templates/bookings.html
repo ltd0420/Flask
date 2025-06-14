@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đơn đặt tour - TravelVN</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/profile.css">
+    <link rel="stylesheet" href="/static/css/bookings.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="/">TravelVN</a></h1>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/">Trang chủ</a></li>
+                    <li><a href="/tours">Tours</a></li>
+                    <li><a href="/gioithieu">Giới thiệu</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                    <li><a href="/lienhe">Liên hệ</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-actions">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Tìm kiếm tour...">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                
+                <div class="auth-buttons" id="auth-buttons">
+                    <a href="/login" class="btn btn-outline">Đăng nhập</a>
+                    <a href="/register" class="btn btn-primary">Đăng ký</a>
+                </div>
+                
+                <div class="user-menu" id="user-menu" style="display: none;">
+                    <a href="#" id="user-dropdown">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="user-name">Tài khoản</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <div class="dropdown-menu" id="user-dropdown-menu">
+                        <a href="/profile"><i class="fas fa-user"></i> Tài khoản</a>
+                        <a href="/bookings" class="active"><i class="fas fa-list"></i> Đơn đặt tour</a>
+                        <a href="/wishlist"><i class="fas fa-heart"></i> Yêu thích</a>
+                        <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <h1>Đơn đặt tour</h1>
+            <div class="breadcrumb">
+                <a href="/">Trang chủ</a> / <span>Đơn đặt tour</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bookings Section -->
+    <section class="profile-section">
+        <div class="container">
+            <div id="loading-indicator" class="loading-indicator">
+                <div class="spinner">
+                    <i class="fas fa-circle-notch fa-spin"></i>
+                </div>
+                <p>Đang tải dữ liệu...</p>
+            </div>
+            
+            <div class="profile-layout">
+                <!-- Sidebar -->
+                <div class="profile-sidebar">
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="user-name" id="sidebar-user-name">Người dùng</h3>
+                        <p class="user-email" id="sidebar-user-email"></p>
+                    </div>
+                    
+                    <nav class="profile-nav">
+                        <a href="/profile" class="nav-item">
+                            <i class="fas fa-user"></i>
+                            <span>Thông tin cá nhân</span>
+                        </a>
+                        <a href="/bookings" class="nav-item active">
+                            <i class="fas fa-list"></i>
+                            <span>Đơn đặt tour</span>
+                        </a>
+                        <a href="/wishlist" class="nav-item">
+                            <i class="fas fa-heart"></i>
+                            <span>Tour yêu thích</span>
+                        </a>
+                        <a href="#" class="nav-item" id="sidebar-logout-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Đăng xuất</span>
+                        </a>
+                    </nav>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="profile-content">
+                    <div class="content-header">
+                        <div class="bookings-header">
+                            <h2>Lịch sử đặt tour</h2>
+                            <div class="filter-options">
+                                <select id="status-filter">
+                                    <option value="">Tất cả trạng thái</option>
+                                    <option value="chờ xác nhận">Chờ xác nhận</option>
+                                    <option value="đã xác nhận">Đã xác nhận</option>
+                                    <option value="đã thanh toán">Đã thanh toán</option>
+                                    <option value="hoàn thành">Hoàn thành</option>
+                                    <option value="đã hủy">Đã hủy</option>
+                                </select>
+                                
+                                <select id="time-filter">
+                                    <option value="">Tất cả thời gian</option>
+                                    <option value="7">7 ngày qua</option>
+                                    <option value="30">30 ngày qua</option>
+                                    <option value="90">3 tháng qua</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bookings-content">
+                        <div class="bookings-list" id="bookings-list">
+                            <!-- Danh sách đơn đặt tour sẽ được thêm động -->
+                        </div>
+                        
+                        <div class="no-bookings" id="no-bookings" style="display: none;">
+                            <div class="no-data-content">
+                                <i class="fas fa-calendar-times"></i>
+                                <h3>Chưa có đơn đặt tour nào</h3>
+                                <p>Bạn chưa đặt tour nào. Hãy khám phá các tour du lịch hấp dẫn của chúng tôi!</p>
+                                <a href="/tours" class="btn btn-primary">
+                                    <i class="fas fa-search"></i>
+                                    Khám phá tour
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>TravelVN</h3>
+                    <p>Chúng tôi cung cấp các tour du lịch chất lượng cao với giá cả hợp lý, mang đến cho bạn những trải nghiệm du lịch đáng nhớ.</p>
+                    
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Liên kết nhanh</h3>
+                    <ul>
+                        <li><a href="/">Trang chủ</a></li>
+                        <li><a href="/tours">Tours</a></li>
+                        <li><a href="/gioithieu">Giới thiệu</a></li>
+                        <li><a href="/blog">Blog</a></li>
+                        <li><a href="/lienhe">Liên hệ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Loại tour</h3>
+                    <ul>
+                        <li><a href="/tours?category=1">Tour trong nước</a></li>
+                        <li><a href="/tours?category=2">Tour nước ngoài</a></li>
+                        <li><a href="/tours?category=3">Tour nghỉ dưỡng</a></li>
+                        <li><a href="/tours?category=4">Tour mạo hiểm</a></li>
+                        <li><a href="/tours?category=5">Tour văn hóa</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Liên hệ</h3>
+                    <ul class="contact-info">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+84 123 456 789</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>info@travelvn.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 TravelVN. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/bookings.js"></script>
+</body>
+</html>

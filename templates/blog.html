@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Du lịch - TravelVN</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        /* Styles cho phần nội dung blog */
+        .blog-section {
+            padding: 4rem 0;
+            background-color: #f8f9fa;
+        }
+
+        .blog-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        /* Featured Post */
+        .featured-post {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .featured-post:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .featured-image {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .featured-post:hover .featured-image img {
+            transform: scale(1.05);
+        }
+
+        .post-category {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #ff7e00;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            z-index: 1;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .featured-content {
+            padding: 2rem;
+        }
+
+        .featured-content h2 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            line-height: 1.3;
+        }
+
+        .featured-content h2 a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .featured-content h2 a:hover {
+            color: #ff7e00;
+        }
+
+        .post-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.2rem;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .post-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .post-meta i {
+            color: #ff7e00;
+        }
+
+        .post-excerpt {
+            margin-bottom: 1.5rem;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #ff7e00;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .read-more:hover {
+            color: #e06d00;
+        }
+
+        .read-more i {
+            transition: transform 0.3s ease;
+        }
+
+        .read-more:hover i {
+            transform: translateX(5px);
+        }
+
+        /* Blog Grid */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .blog-post {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .blog-post:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .post-image {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .blog-post:hover .post-image img {
+            transform: scale(1.05);
+        }
+
+        .post-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 220px);
+        }
+
+        .post-content h3 {
+            margin-top: 0;
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+            line-height: 1.4;
+        }
+
+        .post-content h3 a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .post-content h3 a:hover {
+            color: #ff7e00;
+        }
+
+        .post-content .post-meta {
+            margin-bottom: 0.8rem;
+        }
+
+        .post-content .post-excerpt {
+            margin-bottom: 1.2rem;
+            flex-grow: 1;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+        }
+
+        .pagination a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #fff;
+            color: #333;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .pagination a:hover, .pagination a.active {
+            background-color: #ff7e00;
+            color: white;
+        }
+
+        .pagination a.next {
+            width: auto;
+            padding: 0 1rem;
+            border-radius: 20px;
+        }
+
+        /* Blog Sidebar */
+        .blog-sidebar {
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar-widget {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-widget h3 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .sidebar-widget h3::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background-color: #ff7e00;
+        }
+
+        /* Search Widget */
+        .search-form {
+            position: relative;
+        }
+
+        .search-form input {
+            width: 100%;
+            padding: 0.9rem 3rem 0.9rem 1.2rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-form input:focus {
+            outline: none;
+            border-color: #ff7e00;
+            box-shadow: 0 0 0 3px rgba(255, 126, 0, 0.1);
+        }
+
+        .search-form button {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #777;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        .search-form button:hover {
+            color: #ff7e00;
+        }
+
+        /* Categories Widget */
+        .categories-widget ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .categories-widget li {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .categories-widget li:last-child {
+            border-bottom: none;
+        }
+
+        .categories-widget a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.9rem 0;
+            color: #555;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .categories-widget a:hover {
+            color: #ff7e00;
+            padding-left: 5px;
+        }
+
+        .categories-widget span {
+            background-color: #f8f9fa;
+            color: #777;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .categories-widget a:hover span {
+            background-color: #ff7e00;
+            color: white;
+        }
+
+        /* Recent Posts Widget */
+        .recent-posts {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .recent-post {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .recent-post .post-image {
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .recent-post .post-info {
+            flex-grow: 1;
+        }
+
+        .recent-post h4 {
+            margin: 0 0 0.4rem 0;
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+
+        .recent-post h4 a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .recent-post h4 a:hover {
+            color: #ff7e00;
+        }
+
+        .recent-post span {
+            font-size: 0.85rem;
+            color: #777;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .recent-post span i {
+            color: #ff7e00;
+        }
+
+        /* Tags Widget */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .tags a {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #f8f9fa;
+            color: #555;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .tags a:hover {
+            background-color: #ff7e00;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Newsletter Widget */
+        .newsletter-widget p {
+            margin-bottom: 1.2rem;
+            color: #666;
+        }
+
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .newsletter-form input {
+            padding: 0.9rem 1.2rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: #ff7e00;
+            box-shadow: 0 0 0 3px rgba(255, 126, 0, 0.1);
+        }
+
+        .newsletter-form .btn {
+            width: 100%;
+            padding: 0.9rem;
+            background-color: #ff7e00;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-form .btn:hover {
+            background-color: #e06d00;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .blog-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .blog-sidebar {
+                position: static;
+                margin-top: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured-image {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .featured-content {
+                padding: 1.5rem;
+            }
+            
+            .featured-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .post-meta {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+    <div class="container">
+        <div class="logo">
+            <h1><a href="/">TravelVN</a></h1>
+        </div>
+        
+        <button class="mobile-menu-btn" id="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <nav class="main-nav">
+            <ul>
+                <li><a href="/">Trang chủ</a></li>
+                <li><a href="/tours">Tours</a></li>
+                <li><a href="/gioithieu">Giới thiệu</a></li>
+                <li><a href="/blog" class="active">Blog</a></li>
+                <li><a href="/lienhe">Liên hệ</a></li>
+            </ul>
+        </nav>
+        
+        <div class="user-actions">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Tìm kiếm tour...">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            
+            <div class="auth-buttons" id="auth-buttons">
+                <a href="/login" class="btn btn-outline">Đăng nhập</a>
+                <a href="/register" class="btn btn-primary">Đăng ký</a>
+            </div>
+            
+            <div class="user-menu" id="user-menu" style="display: none;">
+                <a href="#" id="user-dropdown">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="user-name">Tài khoản</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <div class="dropdown-menu" id="user-dropdown-menu">
+                    <a href="/profile"><i class="fas fa-user"></i> Tài khoản</a>
+                    <a href="/bookings"><i class="fas fa-list"></i> Đơn đặt tour</a>
+                    <a href="/wishlist"><i class="fas fa-heart"></i> Yêu thích</a>
+                    <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="container">
+        <h1>Blog Du lịch</h1>
+        <div class="breadcrumb">
+            <a href="/">Trang chủ</a> / <span>Blog</span>
+        </div>
+    </div>
+</div>
+
+<!-- Blog Section -->
+<section class="blog-section">
+    <div class="container">
+        <div class="blog-container">
+            <!-- Blog Main Content -->
+            <div class="blog-main">
+                <!-- Featured Post -->
+                <div class="featured-post">
+                    <div class="featured-image">
+                        <img src="/static/images/blog/featured-post.jpg" alt="10 điểm đến hàng đầu tại Việt Nam năm 2023">
+                        <div class="post-category">
+                            <span>Điểm đến</span>
+                        </div>
+                    </div>
+                    
+                    <div class="featured-content">
+                        <h2><a href="/blog/10-diem-den-hang-dau-tai-viet-nam-nam-2023">10 điểm đến hàng đầu tại Việt Nam năm 2023</a></h2>
+                        
+                        <div class="post-meta">
+                            <span><i class="fas fa-user"></i> Nguyễn Văn A</span>
+                            <span><i class="fas fa-calendar-alt"></i> 15/06/2023</span>
+                            <span><i class="fas fa-comments"></i> 24 bình luận</span>
+                        </div>
+                        
+                        <p class="post-excerpt">Khám phá những điểm đến tuyệt vời nhất tại Việt Nam trong năm 2023, từ những bãi biển đẹp như mơ đến những thành phố sôi động và những vùng núi non hùng vĩ.</p>
+                        
+                        <a href="/blog/10-diem-den-hang-dau-tai-viet-nam-nam-2023" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Blog Posts Grid -->
+                <div class="blog-grid">
+                    <!-- Post 1 -->
+                    <div class="blog-post">
+                        <div class="post-image">
+                            <img src="/static/images/blog/post-1.jpg" alt="Kinh nghiệm du lịch Đà Nẵng tự túc">
+                            <div class="post-category">
+                                <span>Kinh nghiệm</span>
+                            </div>
+                        </div>
+                        
+                        <div class="post-content">
+                            <h3><a href="/blog/kinh-nghiem-du-lich-da-nang-tu-tuc">Kinh nghiệm du lịch Đà Nẵng tự túc</a></h3>
+                            
+                            <div class="post-meta">
+                                <span><i class="fas fa-calendar-alt"></i> 10/06/2023</span>
+                                <span><i class="fas fa-comments"></i> 18 bình luận</span>
+                            </div>
+                            
+                            <p class="post-excerpt">Tất tần tật những kinh nghiệm du lịch Đà Nẵng tự túc, từ cách di chuyển, chỗ ở, ăn uống đến các địa điểm tham quan không thể bỏ qua.</p>
+                            
+                            <a href="/blog/kinh-nghiem-du-lich-da-nang-tu-tuc" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <!-- Post 2 -->
+                    <div class="blog-post">
+                        <div class="post-image">
+                            <img src="/static/images/blog/post-2.jpg" alt="Top 5 món ăn đường phố phải thử khi đến Hà Nội">
+                            <div class="post-category">
+                                <span>Ẩm thực</span>
+                            </div>
+                        </div>
+                        
+                        <div class="post-content">
+                            <h3><a href="/blog/top-5-mon-an-duong-pho-phai-thu-khi-den-ha-noi">Top 5 món ăn đường phố phải thử khi đến Hà Nội</a></h3>
+                            
+                            <div class="post-meta">
+                                <span><i class="fas fa-calendar-alt"></i> 05/06/2023</span>
+                                <span><i class="fas fa-comments"></i> 32 bình luận</span>
+                            </div>
+                            
+                            <p class="post-excerpt">Khám phá những món ăn đường phố ngon nhất tại Hà Nội, từ phở bò truyền thống đến bún chả, bánh mì và nhiều món ngon khác.</p>
+                            
+                            <a href="/blog/top-5-mon-an-duong-pho-phai-thu-khi-den-ha-noi" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <!-- Post 3 -->
+                    <div class="blog-post">
+                        <div class="post-image">
+                            <img src="/static/images/blog/post-3.jpg" alt="Cẩm nang du lịch Phú Quốc mùa hè">
+                            <div class="post-category">
+                                <span>Cẩm nang</span>
+                            </div>
+                        </div>
+                        
+                        <div class="post-content">
+                            <h3><a href="/blog/cam-nang-du-lich-phu-quoc-mua-he">Cẩm nang du lịch Phú Quốc mùa hè</a></h3>
+                            
+                            <div class="post-meta">
+                                <span><i class="fas fa-calendar-alt"></i> 01/06/2023</span>
+                                <span><i class="fas fa-comments"></i> 15 bình luận</span>
+                            </div>
+                            
+                            <p class="post-excerpt">Tất cả những thông tin cần thiết cho chuyến du lịch Phú Quốc mùa hè, từ thời tiết, chỗ ở, đến các hoạt động vui chơi giải trí.</p>
+                            
+                            <a href="/blog/cam-nang-du-lich-phu-quoc-mua-he" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <!-- Post 4 -->
+                    <div class="blog-post">
+                        <div class="post-image">
+                            <img src="/static/images/blog/post-4.jpg" alt="5 lý do nên đi du lịch Nhật Bản vào mùa thu">
+                            <div class="post-category">
+                                <span>Điểm đến</span>
+                            </div>
+                        </div>
+                        
+                        <div class="post-content">
+                            <h3><a href="/blog/5-ly-do-nen-di-du-lich-nhat-ban-vao-mua-thu">5 lý do nên đi du lịch Nhật Bản vào mùa thu</a></h3>
+                            
+                            <div class="post-meta">
+                                <span><i class="fas fa-calendar-alt"></i> 28/05/2023</span>
+                                <span><i class="fas fa-comments"></i> 20 bình luận</span>
+                            </div>
+                            
+                            <p class="post-excerpt">Khám phá vẻ đẹp của Nhật Bản vào mùa thu với lá phong đỏ, thời tiết mát mẻ và nhiều lễ hội văn hóa đặc sắc.</p>
+                            
+                            <a href="/blog/5-ly-do-nen-di-du-lich-nhat-ban-vao-mua-thu" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <!-- Post 5 -->
+                    <div class="blog-post">
+                        <div class="post-image">
+                            <img src="/static/images/blog/post-5.jpg" alt="Kinh nghiệm du lịch tiết kiệm cho sinh viên">
+                            <div class="post-category">
+                                <span>Mẹo hay</span>
+                            </div>
+                        </div>
+                        
+                        <div class="post-content">
+                            <h3><a href="/blog/kinh-nghiem-du-lich-tiet-kiem-cho-sinh-vien">Kinh nghiệm du lịch tiết kiệm cho sinh viên</a></h3>
+                            
+                            <div class="post-meta">
+                                <span><i class="fas fa-calendar-alt"></i> 25/05/2023</span>
+                                <span><i class="fas fa-comments"></i> 28 bình luận</span>
+                            </div>
+                            
+                            <p class="post-excerpt">Những mẹo hay giúp sinh viên có thể du lịch với ngân sách hạn chế, từ cách săn vé máy bay giá rẻ đến lựa chọn chỗ ở phù hợp.</p>
+                            
+                            <a href="/blog/kinh-nghiem-du-lich-tiet-kiem-cho-sinh-vien" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <!-- Post 6 -->
+                    <div class="blog-post">
+                        <div class="post-image">
+                            <img src="/static/images/blog/post-6.jpg" alt="Những điều cần biết khi du lịch Thái Lan lần đầu">
+                            <div class="post-category">
+                                <span>Kinh nghiệm</span>
+                            </div>
+                        </div>
+                        
+                        <div class="post-content">
+                            <h3><a href="/blog/nhung-dieu-can-biet-khi-du-lich-thai-lan-lan-dau">Những điều cần biết khi du lịch Thái Lan lần đầu</a></h3>
+                            
+                            <div class="post-meta">
+                                <span><i class="fas fa-calendar-alt"></i> 20/05/2023</span>
+                                <span><i class="fas fa-comments"></i> 22 bình luận</span>
+                            </div>
+                            
+                            <p class="post-excerpt">Tất cả những thông tin cần thiết cho chuyến du lịch Thái Lan lần đầu, từ visa, tiền tệ, đến phong tục tập quán và những lưu ý quan trọng.</p>
+                            
+                            <a href="/blog/nhung-dieu-can-biet-khi-du-lich-thai-lan-lan-dau" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination">
+                    <a href="#" class="active">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#" class="next"><i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- Blog Sidebar -->
+            <div class="blog-sidebar">
+                <!-- Search Widget -->
+                <div class="sidebar-widget search-widget">
+                    <h3>Tìm kiếm</h3>
+                    <form class="search-form">
+                        <input type="text" placeholder="Tìm kiếm bài viết...">
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+                
+                <!-- Categories Widget -->
+                <div class="sidebar-widget categories-widget">
+                    <h3>Danh mục</h3>
+                    <ul>
+                        <li><a href="#">Điểm đến <span>(15)</span></a></li>
+                        <li><a href="#">Kinh nghiệm <span>(12)</span></a></li>
+                        <li><a href="#">Ẩm thực <span>(8)</span></a></li>
+                        <li><a href="#">Cẩm nang <span>(10)</span></a></li>
+                        <li><a href="#">Mẹo hay <span>(7)</span></a></li>
+                        <li><a href="#">Văn hóa <span>(5)</span></a></li>
+                    </ul>
+                </div>
+                
+                <!-- Recent Posts Widget -->
+                <div class="sidebar-widget recent-posts-widget">
+                    <h3>Bài viết gần đây</h3>
+                    <div class="recent-posts">
+                        <div class="recent-post">
+                            <div class="post-image">
+                                <img src="/static/images/blog/recent-1.jpg" alt="10 điểm đến hàng đầu tại Việt Nam năm 2023">
+                            </div>
+                            <div class="post-info">
+                                <h4><a href="/blog/10-diem-den-hang-dau-tai-viet-nam-nam-2023">10 điểm đến hàng đầu tại Việt Nam năm 2023</a></h4>
+                                <span><i class="fas fa-calendar-alt"></i> 15/06/2023</span>
+                            </div>
+                        </div>
+                        
+                        <div class="recent-post">
+                            <div class="post-image">
+                                <img src="/static/images/blog/recent-2.jpg" alt="Kinh nghiệm du lịch Đà Nẵng tự túc">
+                            </div>
+                            <div class="post-info">
+                                <h4><a href="/blog/kinh-nghiem-du-lich-da-nang-tu-tuc">Kinh nghiệm du lịch Đà Nẵng tự túc</a></h4>
+                                <span><i class="fas fa-calendar-alt"></i> 10/06/2023</span>
+                            </div>
+                        </div>
+                        
+                        <div class="recent-post">
+                            <div class="post-image">
+                                <img src="/static/images/blog/recent-3.jpg" alt="Top 5 món ăn đường phố phải thử khi đến Hà Nội">
+                            </div>
+                            <div class="post-info">
+                                <h4><a href="/blog/top-5-mon-an-duong-pho-phai-thu-khi-den-ha-noi">Top 5 món ăn đường phố phải thử khi đến Hà Nội</a></h4>
+                                <span><i class="fas fa-calendar-alt"></i> 05/06/2023</span>
+                            </div>
+                        </div>
+                        
+                        <div class="recent-post">
+                            <div class="post-image">
+                                <img src="/static/images/blog/recent-4.jpg" alt="Cẩm nang du lịch Phú Quốc mùa hè">
+                            </div>
+                            <div class="post-info">
+                                <h4><a href="/blog/cam-nang-du-lich-phu-quoc-mua-he">Cẩm nang du lịch Phú Quốc mùa hè</a></h4>
+                                <span><i class="fas fa-calendar-alt"></i> 01/06/2023</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tags Widget -->
+                <div class="sidebar-widget tags-widget">
+                    <h3>Thẻ</h3>
+                    <div class="tags">
+                        <a href="#">Du lịch</a>
+                        <a href="#">Việt Nam</a>
+                        <a href="#">Đà Nẵng</a>
+                        <a href="#">Phú Quốc</a>
+                        <a href="#">Hà Nội</a>
+                        <a href="#">Ẩm thực</a>
+                        <a href="#">Mẹo hay</a>
+                        <a href="#">Kinh nghiệm</a>
+                        <a href="#">Tiết kiệm</a>
+                        <a href="#">Nhật Bản</a>
+                        <a href="#">Thái Lan</a>
+                    </div>
+                </div>
+                
+                <!-- Newsletter Widget -->
+                <div class="sidebar-widget newsletter-widget">
+                    <h3>Đăng ký nhận tin</h3>
+                    <p>Đăng ký để nhận những bài viết mới nhất và thông tin ưu đãi từ chúng tôi</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Email của bạn" required>
+                        <button type="submit" class="btn btn-primary">Đăng ký</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>TravelVN</h3>
+                <p>Chúng tôi cung cấp các tour du lịch chất lượng cao với giá cả hợp lý, mang đến cho bạn những trải nghiệm du lịch đáng nhớ.</p>
+                
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Liên kết nhanh</h3>
+                <ul>
+                    <li><a href="/">Trang chủ</a></li>
+                    <li><a href="/tours">Tours</a></li>
+                    <li><a href="/gioithieu.html">Giới thiệu</a></li>
+                    <li><a href="/blog.html">Blog</a></li>
+                    <li><a href="/lienhe.html">Liên hệ</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Loại tour</h3>
+                <ul>
+                    <li><a href="/tours?category=1">Tour trong nước</a></li>
+                    <li><a href="/tours?category=2">Tour nước ngoài</a></li>
+                    <li><a href="/tours?category=3">Tour nghỉ dưỡng</a></li>
+                    <li><a href="/tours?category=4">Tour mạo hiểm</a></li>
+                    <li><a href="/tours?category=5">Tour văn hóa</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Liên hệ</h3>
+                <ul class="contact-info">
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone"></i>
+                        <span>+84 123 456 789</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>info@travelvn.com</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2023 TravelVN. Tất cả quyền được bảo lưu.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="/static/js/auth.js"></script>
+<script src="/static/js/main.js"></script></body>
+<script src="/static/js/direct-logout.js"></script>
+</html>

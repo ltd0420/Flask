@@ -1,0 +1,393 @@
+/* Wishlist Page Styles */
+
+/* Wishlist Header */
+.wishlist-header {
+  padding: 2rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.wishlist-header h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 0.5rem 0;
+}
+
+.wishlist-header p {
+  color: #666;
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Wishlist Content */
+.wishlist-content {
+  padding: 2rem;
+}
+
+/* Tour Grid */
+.tour-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+/* Tour Card */
+.tour-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s;
+  border: 1px solid #f0f0f0;
+}
+
+.tour-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.tour-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.tour-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.tour-card:hover .tour-image img {
+  transform: scale(1.1);
+}
+
+.tour-category {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  backdrop-filter: blur(10px);
+}
+
+.favorite-btn:hover {
+  background: white;
+  transform: scale(1.1);
+}
+
+.favorite-btn.active {
+  background: #e74c3c;
+  color: white;
+}
+
+.favorite-btn.active:hover {
+  background: #c0392b;
+}
+
+.favorite-btn i {
+  font-size: 1.2rem;
+  color: #e74c3c;
+}
+
+.favorite-btn.active i {
+  color: white;
+}
+
+.tour-content {
+  padding: 1.5rem;
+}
+
+.tour-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.tour-info {
+  margin-bottom: 1.5rem;
+}
+
+.tour-location,
+.tour-duration {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.tour-location i,
+.tour-duration i {
+  color: #4a90e2;
+  width: 16px;
+  text-align: center;
+}
+
+.tour-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.stars {
+  color: #ffc107;
+  font-size: 0.9rem;
+}
+
+.rating-count {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.tour-price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.current-price {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #4a90e2;
+}
+
+.price-unit {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.tour-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.tour-actions .btn {
+  flex: 1;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  text-align: center;
+  font-weight: 500;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+}
+
+/* No Wishlist */
+.no-data-content {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.no-data-content i {
+  font-size: 4rem;
+  color: #ddd;
+  margin-bottom: 1.5rem;
+}
+
+.no-data-content h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.no-data-content p {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 2rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.no-data-content .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.no-data-content .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+}
+
+/* Success Notification */
+.success-notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(40, 167, 69, 0.3);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  animation: slideInRight 0.3s ease-out;
+}
+
+.success-notification i {
+  font-size: 1.2rem;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .tour-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .wishlist-header,
+  .wishlist-content {
+    padding: 1.5rem;
+  }
+
+  .tour-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .tour-card {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .tour-actions {
+    flex-direction: column;
+  }
+
+  .no-data-content {
+    padding: 3rem 1rem;
+  }
+
+  .no-data-content i {
+    font-size: 3rem;
+  }
+
+  .no-data-content h3 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tour-image {
+    height: 180px;
+  }
+
+  .tour-content {
+    padding: 1rem;
+  }
+
+  .tour-title {
+    font-size: 1.1rem;
+  }
+
+  .current-price {
+    font-size: 1.2rem;
+  }
+}
+
+/* Animation */
+.tour-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading States */
+.tour-card.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.favorite-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Focus States */
+.favorite-btn:focus,
+.tour-actions .btn:focus {
+  outline: 2px solid #4a90e2;
+  outline-offset: 2px;
+}

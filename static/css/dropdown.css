@@ -1,0 +1,68 @@
+/* CSS cho dropdown menu */
+#user-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  position: relative;
+  color: #1e88e5; /* Màu xanh cho toàn bộ dropdown */
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+#user-name {
+  color: #1e88e5; /* Màu xanh giống với màu chính của TravelVN */
+  font-weight: 500;
+}
+
+#user-dropdown i {
+  font-size: 1.2rem;
+  color: #1e88e5; /* Màu xanh cho icon */
+}
+
+.user-menu {
+  position: relative;
+}
+
+#user-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  min-width: 200px;
+  z-index: 1000;
+  margin-top: 5px;
+}
+
+/* Thay đổi ở đây: Hiển thị dropdown khi hover vào user-menu thay vì chỉ user-dropdown */
+.user-menu:hover #user-dropdown-menu {
+  display: block;
+}
+
+#user-dropdown-menu.active {
+  display: block;
+}
+
+#user-dropdown-menu a {
+  display: block;
+  padding: 10px 15px;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+#user-dropdown-menu a:hover {
+  background-color: #f5f5f5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  /* Giữ nguyên chức năng hover trên mobile */
+  .user-menu:hover #user-dropdown-menu {
+    display: block; /* Vẫn hiển thị khi hover trên mobile */
+  }
+}

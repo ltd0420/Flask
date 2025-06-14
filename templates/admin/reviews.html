@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Đánh giá Tour - Admin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f6fa;
+            color: #333;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-card .icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card.total .icon { color: #3498db; }
+        .stat-card.positive .icon { color: #27ae60; }
+        .stat-card.neutral .icon { color: #f39c12; }
+        .stat-card.negative .icon { color: #e74c3c; }
+        .stat-card.average .icon { color: #9b59b6; }
+
+        .stat-card .number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .filters-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            min-width: 150px;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background: #5a6fd8;
+        }
+
+        .reviews-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .reviews-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .review-item {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s ease;
+        }
+
+        .review-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .review-item:last-child {
+            border-bottom: none;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            gap: 1rem;
+        }
+
+        .review-info {
+            flex: 1;
+        }
+
+        .review-tour {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+
+        .review-customer {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .review-date {
+            color: #999;
+            font-size: 0.8rem;
+        }
+
+        .review-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stars {
+            display: flex;
+            gap: 2px;
+        }
+
+        .star {
+            color: #ddd;
+            font-size: 1.2rem;
+        }
+
+        .star.filled {
+            color: #ffc107;
+        }
+
+        .sentiment-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .sentiment-positive {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .sentiment-neutral {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .sentiment-negative {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .review-content {
+            margin: 1rem 0;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .review-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+
+        .reply-btn {
+            background: #3498db;
+            color: white;
+        }
+
+        .reply-btn:hover {
+            background: #2980b9;
+        }
+
+        .pagination {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination .current-page {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .empty-state .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+        }
+
+        .btn-cancel {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .btn-confirm {
+            padding: 0.5rem 1rem;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group select,
+            .filter-group input {
+                min-width: auto;
+            }
+
+            .review-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .review-actions {
+                flex-wrap: wrap;
+            }
+
+            .stats-overview {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="admin-header">
+        <div class="header-content">
+            <div>
+                <h1>⭐ Quản lý Đánh giá Tour</h1>
+                <p>Quản lý và theo dõi đánh giá của khách hàng</p>
+            </div>
+            <a href="/admin" class="back-btn">← Quay về Dashboard</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Thống kê tổng quan -->
+        <div class="stats-overview">
+            <div class="stat-card total">
+                <div class="icon">📊</div>
+                <div class="number" id="totalReviews">-</div>
+                <div class="label">Tổng đánh giá</div>
+            </div>
+            <div class="stat-card average">
+                <div class="icon">⭐</div>
+                <div class="number" id="averageRating">-</div>
+                <div class="label">Điểm trung bình</div>
+            </div>
+            <div class="stat-card positive">
+                <div class="icon">😊</div>
+                <div class="number" id="positiveReviews">-</div>
+                <div class="label">Tích cực (4-5⭐)</div>
+            </div>
+            <div class="stat-card neutral">
+                <div class="icon">😐</div>
+                <div class="number" id="neutralReviews">-</div>
+                <div class="label">Trung bình (3⭐)</div>
+            </div>
+            <div class="stat-card negative">
+                <div class="icon">😞</div>
+                <div class="number" id="negativeReviews">-</div>
+                <div class="label">Tiêu cực (1-2⭐)</div>
+            </div>
+        </div>
+
+        <!-- Bộ lọc -->
+        <div class="filters-section">
+            <h3 style="margin-bottom: 1rem;">🔍 Bộ lọc</h3>
+            <div class="filters">
+                <div class="filter-group">
+                    <label>Tour</label>
+                    <select id="tourFilter">
+                        <option value="">Tất cả tour</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Điểm đánh giá</label>
+                    <select id="ratingFilter">
+                        <option value="">Tất cả điểm</option>
+                        <option value="5">5 sao</option>
+                        <option value="4">4 sao</option>
+                        <option value="3">3 sao</option>
+                        <option value="2">2 sao</option>
+                        <option value="1">1 sao</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Từ ngày</label>
+                    <input type="date" id="fromDate">
+                </div>
+                <div class="filter-group">
+                    <label>Đến ngày</label>
+                    <input type="date" id="toDate">
+                </div>
+                <div class="filter-group">
+                    <label>&nbsp;</label>
+                    <button class="filter-btn" onclick="loadReviews()">🔄 Lọc</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Danh sách đánh giá -->
+        <div class="reviews-section">
+            <div class="section-header">
+                <h3>📝 Danh sách Đánh giá</h3>
+                <div>
+                    <span id="reviewsCount">0</span> đánh giá
+                </div>
+            </div>
+            
+            <div class="reviews-list" id="reviewsList">
+                <div class="loading">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">⏳</div>
+                    <p>Đang tải danh sách đánh giá...</p>
+                </div>
+            </div>
+
+            <div class="pagination" id="pagination" style="display: none;">
+                <button id="prevBtn" onclick="changePage(-1)">← Trước</button>
+                <span id="pageInfo">Trang 1 / 1</span>
+                <button id="nextBtn" onclick="changePage(1)">Sau →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal xác nhận xóa -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>⚠️ Xác nhận xóa</h3>
+                <button class="modal-close" onclick="closeDeleteModal()">&times;</button>
+            </div>
+            <p>Bạn có chắc chắn muốn xóa đánh giá này không? Hành động này không thể hoàn tác.</p>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeDeleteModal()">Hủy</button>
+                <button class="btn-confirm" onclick="confirmDelete()">Xóa</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        let totalPages = 1;
+        let deleteReviewId = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStats();
+            loadTours();
+            loadReviews();
+        });
+
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/admin/reviews/stats');
+                const data = await response.json();
+                
+                if (data.success) {
+                    updateStats(data.stats);
+                }
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        async function loadTours() {
+            try {
+                const response = await fetch('/api/admin/tours');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const tourSelect = document.getElementById('tourFilter');
+                    tourSelect.innerHTML = '<option value="">Tất cả tour</option>';
+                    
+                    data.tours.forEach(tour => {
+                        const option = document.createElement('option');
+                        option.value = tour.id;
+                        option.textContent = tour.ten_tour;
+                        tourSelect.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading tours:', error);
+            }
+        }
+
+        async function loadReviews(page = 1) {
+            try {
+                const tourId = document.getElementById('tourFilter').value;
+                const rating = document.getElementById('ratingFilter').value;
+                const fromDate = document.getElementById('fromDate').value;
+                const toDate = document.getElementById('toDate').value;
+
+                let url = `/api/admin/reviews?page=${page}&limit=10`;
+                if (tourId) url += `&tour_id=${tourId}`;
+                if (rating) url += `&rating=${rating}`;
+                if (fromDate) url += `&from_date=${fromDate}`;
+                if (toDate) url += `&to_date=${toDate}`;
+
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.success) {
+                    renderReviews(data.reviews);
+                    updatePagination(data.page, data.total_pages, data.total);
+                    currentPage = data.page;
+                    totalPages = data.total_pages;
+                }
+            } catch (error) {
+                console.error('Error loading reviews:', error);
+                showError('Có lỗi xảy ra khi tải danh sách đánh giá');
+            }
+        }
+
+        function updateStats(stats) {
+            document.getElementById('totalReviews').textContent = stats.total_reviews;
+            document.getElementById('averageRating').textContent = stats.average_rating;
+            
+            // Tính toán số lượng đánh giá theo sentiment
+            let positive = 0, neutral = 0, negative = 0;
+            stats.rating_distribution.forEach(item => {
+                if (item.diem_danh_gia >= 4) positive += item.so_luong;
+                else if (item.diem_danh_gia === 3) neutral += item.so_luong;
+                else negative += item.so_luong;
+            });
+            
+            document.getElementById('positiveReviews').textContent = positive;
+            document.getElementById('neutralReviews').textContent = neutral;
+            document.getElementById('negativeReviews').textContent = negative;
+        }
+
+        function renderReviews(reviews) {
+            const container = document.getElementById('reviewsList');
+            
+            if (reviews.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">📝</div>
+                        <h3>Chưa có đánh giá nào</h3>
+                        <p>Không tìm thấy đánh giá nào phù hợp với bộ lọc hiện tại.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const reviewsHTML = reviews.map(review => {
+                const sentiment = getSentiment(review.diem_danh_gia);
+                const stars = generateStars(review.diem_danh_gia);
+                const date = new Date(review.ngay_danh_gia).toLocaleDateString('vi-VN');
+                
+                return `
+                    <div class="review-item">
+                        <div class="review-header">
+                            <div class="review-info">
+                                <div class="review-tour">${review.ten_tour}</div>
+                                <div class="review-customer">👤 ${review.ho_ten} (${review.email})</div>
+                                <div class="review-date">📅 ${date}</div>
+                            </div>
+                            <div>
+                                <div class="review-rating">
+                                    <div class="stars">${stars}</div>
+                                    <span class="sentiment-badge sentiment-${sentiment.class}">${sentiment.label}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        ${review.noi_dung ? `
+                            <div class="review-content">
+                                "${review.noi_dung}"
+                            </div>
+                        ` : ''}
+                        
+                        <div class="review-actions">
+                            <button class="action-btn delete-btn" onclick="showDeleteModal(${review.id})">
+                                🗑️ Xóa
+                            </button>
+                            <button class="action-btn reply-btn" onclick="replyToReview(${review.id})">
+                                💬 Phản hồi
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = reviewsHTML;
+        }
+
+        function generateStars(rating) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                stars += `<span class="star ${i <= rating ? 'filled' : ''}">⭐</span>`;
+            }
+            return stars;
+        }
+
+        function getSentiment(rating) {
+            if (rating >= 4) return { class: 'positive', label: 'Tích cực' };
+            if (rating === 3) return { class: 'neutral', label: 'Trung bình' };
+            return { class: 'negative', label: 'Tiêu cực' };
+        }
+
+        function updatePagination(page, totalPages, total) {
+            document.getElementById('reviewsCount').textContent = total;
+            document.getElementById('pageInfo').textContent = `Trang ${page} / ${totalPages}`;
+            document.getElementById('prevBtn').disabled = page <= 1;
+            document.getElementById('nextBtn').disabled = page >= totalPages;
+            document.getElementById('pagination').style.display = totalPages > 1 ? 'flex' : 'none';
+        }
+
+        function changePage(direction) {
+            const newPage = currentPage + direction;
+            if (newPage >= 1 && newPage <= totalPages) {
+                loadReviews(newPage);
+            }
+        }
+
+        function showDeleteModal(reviewId) {
+            deleteReviewId = reviewId;
+            document.getElementById('deleteModal').style.display = 'block';
+        }
+
+        function closeDeleteModal() {
+            deleteReviewId = null;
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+
+        async function confirmDelete() {
+            if (!deleteReviewId) return;
+
+            try {
+                const response = await fetch(`/api/admin/reviews/${deleteReviewId}`, {
+                    method: 'DELETE'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showSuccess('Xóa đánh giá thành công');
+                    loadReviews(currentPage);
+                    loadStats();
+                } else {
+                    showError(data.error || 'Có lỗi xảy ra khi xóa đánh giá');
+                }
+            } catch (error) {
+                console.error('Error deleting review:', error);
+                showError('Có lỗi xảy ra khi xóa đánh giá');
+            }
+            
+            closeDeleteModal();
+        }
+
+        function replyToReview(reviewId) {
+            // TODO: Implement reply functionality
+            alert('Tính năng phản hồi đánh giá sẽ được phát triển trong phiên bản tiếp theo');
+        }
+
+        function showSuccess(message) {
+            // Simple success notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #27ae60;
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                z-index: 1001;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 3000);
+        }
+
+        function showError(message) {
+            // Simple error notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #e74c3c;
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                z-index: 1001;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 3000);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('deleteModal');
+            if (event.target === modal) {
+                closeDeleteModal();
+            }
+        }
+    </script>
+</body>
+</html>

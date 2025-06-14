@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác nhận đặt tour - TravelVN</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/tour-detail.css">
+    <link rel="stylesheet" href="/static/css/tour-confirm.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="/">TravelVN</a></h1>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/">Trang chủ</a></li>
+                    <li><a href="/tours" class="active">Tours</a></li>
+                    <li><a href="/gioithieu">Giới thiệu</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                    <li><a href="/lienhe">Liên hệ</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-actions">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Tìm kiếm tour...">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                
+                <div class="auth-buttons" id="auth-buttons">
+                    <a href="/login" class="btn btn-outline">Đăng nhập</a>
+                    <a href="/register" class="btn btn-primary">Đăng ký</a>
+                </div>
+                
+                <div class="user-menu" id="user-menu" style="display: none;">
+                    <a href="#" id="user-dropdown">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="user-name">Tài khoản</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <div class="dropdown-menu" id="user-dropdown-menu">
+                        <a href="/profile"><i class="fas fa-user"></i> Tài khoản</a>
+                        <a href="/bookings"><i class="fas fa-list"></i> Đơn đặt tour</a>
+                        <a href="/wishlist"><i class="fas fa-heart"></i> Yêu thích</a>
+                        <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <div class="page-header" style="background-color: #007bff; color: white;">
+        <div class="container">
+            <h1>Xác nhận đặt tour</h1>
+            <div class="breadcrumb">
+                <a href="/">Trang chủ</a> / <a href="/tours">Tours</a> / <a id="tour-link" href="#">Chi tiết Tour</a> / <span>Xác nhận đặt tour</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Tour Section -->
+    <section class="tour-confirm">
+        <div class="container">
+            <div id="loading-indicator" class="loading-indicator">
+                <div class="spinner">
+                    <i class="fas fa-circle-notch fa-spin"></i>
+                </div>
+                <p>Đang tải thông tin...</p>
+            </div>
+            
+            <div id="error-message" class="error-message" style="display: none;">
+                <div class="error-content">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Đã xảy ra lỗi</h3>
+                    <p id="error-text">Không thể tải thông tin đặt tour.</p>
+                    <button class="btn btn-primary" onclick="window.history.back()">Quay lại</button>
+                </div>
+            </div>
+            
+            <div class="confirm-container">
+                <div class="confirm-header">
+                    <h2>Xác nhận thông tin đặt tour</h2>
+                    <p>Vui lòng kiểm tra lại thông tin trước khi xác nhận đặt tour</p>
+                </div>
+                
+                <div class="confirm-content">
+                    <div class="tour-summary">
+                        <div class="tour-image">
+                            <img id="tour-image" src="/static/images/tours/default-tour.jpg" alt="Tour" onerror="this.src='https://via.placeholder.com/300x200?text=Tour+Image'">
+                        </div>
+                        <div class="tour-info">
+                            <h3 id="tour-name">Tên tour</h3>
+                            <div class="tour-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>Ngày khởi hành: <strong id="departure-date">01/01/2023</strong></span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>Số người lớn: <strong id="adults-count">2</strong></span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-child"></i>
+                                    <span>Số trẻ em: <strong id="children-count">1</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="price-details">
+                        <h3>Chi tiết giá</h3>
+                        <div class="price-table">
+                            <div class="price-row">
+                                <div class="price-label">Người lớn</div>
+                                <div class="price-value" id="adult-price-detail">2 x 5.500.000 VNĐ</div>
+                                <div class="price-total" id="adult-price-total">11.000.000 VNĐ</div>
+                            </div>
+                            <div class="price-row" id="children-price-row">
+                                <div class="price-label">Trẻ em</div>
+                                <div class="price-value" id="child-price-detail">1 x 4.000.000 VNĐ</div>
+                                <div class="price-total" id="child-price-total">4.000.000 VNĐ</div>
+                            </div>
+                            
+                            <div id="additional-services-container">
+                                <h4>Dịch vụ phụ trợ</h4>
+                                <div id="additional-services-list">
+                                    <!-- Dịch vụ phụ trợ sẽ được thêm động -->
+                                </div>
+                            </div>
+                            
+                            <div class="price-row total">
+                                <div class="price-label">Tổng cộng</div>
+                                <div class="price-total" id="total-price">15.000.000 VNĐ</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="customer-info">
+                        <h3>Thông tin khách hàng</h3>
+                        <div class="info-table">
+                            <div class="info-row">
+                                <div class="info-label">Họ tên</div>
+                                <div class="info-value" id="customer-name">Nguyễn Văn A</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Email</div>
+                                <div class="info-value" id="customer-email">email@example.com</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Số điện thoại</div>
+                                <div class="info-value" id="customer-phone">0123456789</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-method">
+                        <h3>Phương thức thanh toán</h3>
+                        <div class="payment-options">
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="transfer" checked>
+                                <div class="option-content">
+                                    <i class="fas fa-university"></i>
+                                    <div class="option-info">
+                                        <div class="option-title">Chuyển khoản ngân hàng</div>
+                                        <div class="option-desc">Chuyển khoản đến tài khoản của chúng tôi</div>
+                                    </div>
+                                </div>
+                            </label>
+                            
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="cash">
+                                <div class="option-content">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                    <div class="option-info">
+                                        <div class="option-title">Thanh toán tiền mặt</div>
+                                        <div class="option-desc">Thanh toán tại văn phòng của chúng tôi</div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="terms-conditions">
+                        <label class="terms-checkbox">
+                            <input type="checkbox" id="terms-checkbox" required>
+                            <span>Tôi đã đọc và đồng ý với <a href="#">điều khoản và điều kiện</a> của TravelVN</span>
+                        </label>
+                    </div>
+                    
+                    <div class="confirm-actions">
+                        <button class="btn btn-outline" id="back-button">Quay lại</button>
+                        <button class="btn btn-primary" id="confirm-button">Xác nhận đặt tour</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>TravelVN</h3>
+                    <p>Chúng tôi cung cấp các tour du lịch chất lượng cao với giá cả hợp lý, mang đến cho bạn những trải nghiệm du lịch đáng nhớ.</p>
+                    
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Liên kết nhanh</h3>
+                    <ul>
+                        <li><a href="/">Trang chủ</a></li>
+                        <li><a href="/tours">Tours</a></li>
+                        <li><a href="/gioithieu">Giới thiệu</a></li>
+                        <li><a href="/blog">Blog</a></li>
+                        <li><a href="/lienhe">Liên hệ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Loại tour</h3>
+                    <ul>
+                        <li><a href="/tours?category=1">Tour trong nước</a></li>
+                        <li><a href="/tours?category=2">Tour nước ngoài</a></li>
+                        <li><a href="/tours?category=3">Tour nghỉ dưỡng</a></li>
+                        <li><a href="/tours?category=4">Tour mạo hiểm</a></li>
+                        <li><a href="/tours?category=5">Tour văn hóa</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Liên hệ</h3>
+                    <ul class="contact-info">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+84 123 456 789</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>info@travelvn.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 TravelVN. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/tour-confirm.js"></script>
+</body>
+</html>

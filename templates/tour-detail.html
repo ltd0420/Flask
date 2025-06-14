@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết Tour - TravelVN</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/tour-detail.css">
+</head>
+<body>
+    <!-- Header -->
+<header class="header">
+    <div class="container">
+        <div class="logo">
+            <h1><a href="/">TravelVN</a></h1>
+        </div>
+        
+        <button class="mobile-menu-btn" id="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <nav class="main-nav">
+            <ul>
+                <li><a href="/">Trang chủ</a></li>
+                <li><a href="/tours" class="active">Tours</a></li>
+                <li><a href="/gioithieu">Giới thiệu</a></li>
+                <li><a href="/blog">Blog</a></li>
+                <li><a href="/lienhe">Liên hệ</a></li>
+            </ul>
+        </nav>
+        
+        <div class="user-actions">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Tìm kiếm tour...">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            
+            <div class="auth-buttons" id="auth-buttons">
+                <a href="/login" class="btn btn-outline">Đăng nhập</a>
+                <a href="/register" class="btn btn-primary">Đăng ký</a>
+            </div>
+            
+            <div class="user-menu" id="user-menu" style="display: none;">
+                <a href="#" id="user-dropdown">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="user-name">Tài khoản</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <div class="dropdown-menu" id="user-dropdown-menu">
+                    <a href="/profile"><i class="fas fa-user"></i> Tài khoản</a>
+                    <a href="/bookings"><i class="fas fa-list"></i> Đơn đặt tour</a>
+                    <a href="/wishlist"><i class="fas fa-heart"></i> Yêu thích</a>
+                    <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Page Header -->
+<div class="page-header" style="background-color: #007bff; color: white;">
+    <div class="container">
+        <h1 id="tour-name">Chi tiết Tour</h1>
+        <div class="breadcrumb">
+            <a href="/">Trang chủ</a> / <a href="/tours">Tours</a> / <span id="breadcrumb-tour-name">Chi tiết Tour</span>
+        </div>
+    </div>
+</div>
+
+    <!-- Tour Detail Section -->
+    <section class="tour-detail">
+        <div class="container">
+            <div id="loading-indicator" class="loading-indicator">
+                <div class="spinner">
+                    <i class="fas fa-circle-notch fa-spin"></i>
+                </div>
+                <p>Đang tải thông tin tour...</p>
+            </div>
+            
+            <!-- Back to Tours Button -->
+        <div class="back-to-tours">
+            <a href="/tours" class="btn btn-outline">
+                <i class="fas fa-arrow-left"></i> Quay lại danh sách tour
+            </a>
+        </div>
+
+        <!-- Tour Gallery - Đưa lên trên đầu -->
+        <div class="tour-gallery-container">
+            <!-- Fallback image in case gallery fails to load -->
+            <div class="fallback-image" id="fallback-image">
+                <img src="/static/images/tours/default-tour.jpg" alt="Tour" onerror="this.src='https://via.placeholder.com/800x500?text=Tour+Image'">
+            </div>
+            
+            <!-- Static gallery -->
+            <div class="static-gallery" id="static-gallery">
+                <div class="main-image">
+                    <img src="/static/images/tours/default-tour.jpg" alt="Tour" onerror="this.src='https://via.placeholder.com/800x500?text=Tour+Image'">
+                </div>
+                <div class="thumbnail-container">
+                    <!-- Thumbnails will be added dynamically -->
+                </div>
+            </div>
+        </div>
+        
+        
+            
+            <div class="tour-detail-container">
+                <div class="tour-left-column">
+                    <!-- Tour Tabs -->
+                    <div class="tour-tabs">
+                        <div class="tabs">
+                            <button class="tab-btn active" data-tab="itinerary">Lịch trình</button>
+                            <button class="tab-btn" data-tab="included">Bao gồm</button>
+                            <button class="tab-btn" data-tab="excluded">Không bao gồm</button>
+                            <button class="tab-btn" data-tab="notes">Lưu ý</button>
+                        </div>
+                        
+                        <div class="tab-pane active" id="itinerary">
+                            <!-- Lịch trình sẽ được thêm động -->
+                            <div class="loading-content">
+                                <p>Đang tải lịch trình...</p>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-pane" id="included">
+                            <!-- Dịch vụ bao gồm sẽ được thêm động -->
+                            <div class="loading-content">
+                                <p>Đang tải thông tin...</p>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-pane" id="excluded">
+                            <!-- Dịch vụ không bao gồm sẽ được thêm động -->
+                            <div class="loading-content">
+                                <p>Đang tải thông tin...</p>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-pane" id="notes">
+                            <!-- Lưu ý sẽ được thêm động -->
+                            <div class="loading-content">
+                                <p>Đang tải thông tin...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tour Info -->
+                <div class="tour-info">
+                    <div class="tour-content">
+                        <div class="tour-header">
+                            <span class="tour-category" id="tour-category">Tour mạo hiểm</span>
+                            <h2 class="tour-title" id="tour-title">Tour Trekking Fansipan</h2>
+                            <div class="tour-rating">
+                                <div class="stars" id="tour-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span id="tour-rating-count">28 đánh giá</span>
+                            </div>
+                        </div>
+                        
+                        <div class="tour-highlights">
+                            <div class="highlight-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div class="highlight-info">
+                                    <span class="highlight-label">Điểm khởi hành</span>
+                                    <span class="highlight-value" id="tour-departure">Hà Nội</span>
+                                </div>
+                            </div>
+                            
+                            <div class="highlight-item">
+                                <i class="fas fa-map-marked-alt"></i>
+                                <div class="highlight-info">
+                                    <span class="highlight-label">Điểm đến</span>
+                                    <span class="highlight-value" id="tour-destination">Sapa</span>
+                                </div>
+                            </div>
+                            
+                            <div class="highlight-item">
+                                <i class="fas fa-clock"></i>
+                                <div class="highlight-info">
+                                    <span class="highlight-label">Thời gian</span>
+                                    <span class="highlight-value" id="tour-duration">4 ngày 3 đêm</span>
+                                </div>
+                            </div>
+                            
+                            <div class="highlight-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <div class="highlight-info">
+                                    <span class="highlight-label">Ngày khởi hành</span>
+                                    <span class="highlight-value" id="tour-start-date">20/09/2023</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tour-description" id="tour-description">
+                            <p>Đang tải thông tin tour...</p>
+                        </div>
+                        
+                        <!-- Tour Share -->
+                        <div class="tour-share">
+                            <h3>Chia sẻ tour này</h3>
+                            <div class="share-buttons">
+                                <a href="#" class="share-btn facebook">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="share-btn twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="share-btn email">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                                <a href="#" class="share-btn copy">
+                                    <i class="fas fa-link"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="booking-sidebar">
+                        <div class="booking-card">
+                            <div class="price-info">
+                                <div class="price">
+                                    <span class="current-price" id="tour-price">5.500.000 VNĐ</span>
+                                    <span class="per-person">/ người lớn</span>
+                                </div>
+                                <div class="price-child" id="tour-price-child">4.000.000 VNĐ / trẻ em</div>
+                            </div>
+                            
+                            <!-- Sửa form đặt tour để đảm bảo nó hoạt động đúng -->
+                            <form id="booking-form" onsubmit="return false;">
+                                <div class="form-group">
+                                    <label for="booking-date">Ngày khởi hành</label>
+                                    <input type="date" id="booking-date" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Số lượng khách</label>
+                                    
+                                    <div class="quantity-control">
+                                        <span>Người lớn</span>
+                                        <div class="quantity-input">
+                                            <button type="button" class="quantity-btn minus" data-target="adults">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <input type="number" id="adults" min="1" value="1" readonly>
+                                            <button type="button" class="quantity-btn plus" data-target="adults">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="quantity-control">
+                                        <span>Trẻ em</span>
+                                        <div class="quantity-input">
+                                            <button type="button" class="quantity-btn minus" data-target="children">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <input type="number" id="children" min="0" value="0" readonly>
+                                            <button type="button" class="quantity-btn plus" data-target="children">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="additional-services" id="additional-services">
+                                    <!-- Dịch vụ phụ trợ sẽ được thêm động -->
+                                </div>
+                                
+                                <div class="total-price">
+                                    <span>Tổng tiền:</span>
+                                    <span id="total-price">5.500.000 VNĐ</span>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary btn-block">Đặt tour ngay</button>
+                            </form>
+                            
+                            <!-- Save Tour Button -->
+                            <div class="save-tour">
+                                <button id="save-tour-btn" class="btn btn-outline btn-block">
+                                    <i class="far fa-heart"></i> Lưu tour yêu thích
+                                </button>
+                            </div>
+                            
+                            <div class="contact-card">
+                                <h3>Bạn cần hỗ trợ?</h3>
+                                <p>Liên hệ với chúng tôi để được tư vấn và hỗ trợ đặt tour.</p>
+                                
+                                <div class="contact-info">
+                                    <div class="contact-item">
+                                        <i class="fas fa-phone"></i>
+                                        <span>+84 123 456 789</span>
+                                    </div>
+                                    <div class="contact-item">
+                                        <i class="fas fa-envelope"></i>
+                                        <span>info@travelvn.com</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tour Reviews Section -->
+    <section class="tour-reviews">
+        <div class="container">
+            <div class="section-header">
+                <h2>Đánh giá từ khách hàng</h2>
+                <p>Những đánh giá chân thực từ khách hàng đã trải nghiệm tour này</p>
+            </div>
+            
+            <div class="reviews-summary">
+                <div class="rating-summary">
+                    <div class="average-rating">
+                        <span id="average-rating">4.5</span>
+                        <div class="stars" id="average-rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span id="total-reviews">28 đánh giá</span>
+                    </div>
+                    
+                    <div class="rating-bars">
+                        <div class="rating-bar">
+                            <div class="rating-label">5 sao</div>
+                            <div class="progress-bar">
+                                <div class="progress" id="rating-5" style="width: 60%"></div>
+                            </div>
+                            <div class="rating-count" id="rating-5-count">17</div>
+                        </div>
+                        
+                        <div class="rating-bar">
+                            <div class="rating-label">4 sao</div>
+                            <div class="progress-bar">
+                                <div class="progress" id="rating-4" style="width: 25%"></div>
+                            </div>
+                            <div class="rating-count" id="rating-4-count">7</div>
+                        </div>
+                        
+                        <div class="rating-bar">
+                            <div class="rating-label">3 sao</div>
+                            <div class="progress-bar">
+                                <div class="progress" id="rating-3" style="width: 10%"></div>
+                            </div>
+                            <div class="rating-count" id="rating-3-count">3</div>
+                        </div>
+                        
+                        <div class="rating-bar">
+                            <div class="rating-label">2 sao</div>
+                            <div class="progress-bar">
+                                <div class="progress" id="rating-2" style="width: 5%"></div>
+                            </div>
+                            <div class="rating-count" id="rating-2-count">1</div>
+                        </div>
+                        
+                        <div class="rating-bar">
+                            <div class="rating-label">1 sao</div>
+                            <div class="progress-bar">
+                                <div class="progress" id="rating-1" style="width: 0%"></div>
+                            </div>
+                            <div class="rating-count" id="rating-1-count">0</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="write-review">
+                    <h3>Bạn đã trải nghiệm tour này?</h3>
+                    <p>Hãy chia sẻ đánh giá của bạn để giúp người khác có quyết định tốt hơn.</p>
+                    <button id="write-review-btn" class="btn btn-primary">Viết đánh giá</button>
+                </div>
+            </div>
+            
+            <div class="review-form" id="review-form" style="display: none;">
+                <h3>Đánh giá tour</h3>
+                
+                <form id="submit-review-form">
+                    <div class="form-group">
+                        <label>Đánh giá của bạn</label>
+                        <div class="rating-input">
+                            <i class="far fa-star" data-rating="1"></i>
+                            <i class="far fa-star" data-rating="2"></i>
+                            <i class="far fa-star" data-rating="3"></i>
+                            <i class="far fa-star" data-rating="4"></i>
+                            <i class="far fa-star" data-rating="5"></i>
+                        </div>
+                        <input type="hidden" id="rating-value" value="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="review-content">Nội dung đánh giá</label>
+                        <textarea id="review-content" rows="5" placeholder="Chia sẻ trải nghiệm của bạn về tour này..."></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" id="cancel-review-btn" class="btn btn-outline">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="reviews-list" id="reviews-list">
+                <!-- Danh sách đánh giá sẽ được thêm động -->
+            </div>
+            
+            <div class="load-more" id="load-more-reviews">
+                <button class="btn btn-outline">Xem thêm đánh giá</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Tours Section -->
+    <section class="related-tours">
+        <div class="container">
+            <div class="section-header">
+                <h2>Tour tương tự</h2>
+                <p>Khám phá thêm các tour du lịch tương tự</p>
+            </div>
+            
+            <div class="tour-grid" id="related-tours">
+                <!-- Tour tương tự sẽ được thêm động -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>TravelVN</h3>
+                    <p>Chúng tôi cung cấp các tour du lịch chất lượng cao với giá cả hợp lý, mang đến cho bạn những trải nghiệm du lịch đáng nhớ.</p>
+                    
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Liên kết nhanh</h3>
+                    <ul>
+                        <li><a href="/">Trang chủ</a></li>
+                        <li><a href="/tours">Tours</a></li>
+                        <li><a href="/gioithieu">Giới thiệu</a></li>
+                        <li><a href="/blog">Blog</a></li>
+                        <li><a href="/lienhe">Liên hệ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Loại tour</h3>
+                    <ul>
+                        <li><a href="/tours?category=1">Tour trong nước</a></li>
+                        <li><a href="/tours?category=2">Tour nước ngoài</a></li>
+                        <li><a href="/tours?category=3">Tour nghỉ dưỡng</a></li>
+                        <li><a href="/tours?category=4">Tour mạo hiểm</a></li>
+                        <li><a href="/tours?category=5">Tour văn hóa</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Liên hệ</h3>
+                    <ul class="contact-info">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+84 123 456 789</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>info@travelvn.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 TravelVN. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/tour-detail.js"></script>
+    <script src="/static/js/auth.js"></script>
+</body>
+</html>

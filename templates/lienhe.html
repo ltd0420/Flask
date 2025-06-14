@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liên hệ - TravelVN</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        /* Styles cho phần nội dung liên hệ */
+        .contact-section {
+            padding: 4rem 0;
+            background-color: #f8f9fa;
+        }
+
+        .contact-info-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .contact-info h2, .contact-form-container h2 {
+            font-size: 2rem;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 1rem;
+            color: #333;
+        }
+
+        .contact-info h2::after, .contact-form-container h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background-color: #ff7e00;
+        }
+
+        .contact-info p {
+            margin-bottom: 2rem;
+            color: #666;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .info-items {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-item {
+            display: flex;
+            gap: 1.5rem;
+            background-color: white;
+            padding: 1.8rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .info-item .icon {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 126, 0, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover .icon {
+            background-color: #ff7e00;
+        }
+
+        .info-item .icon i {
+            font-size: 1.8rem;
+            color: #ff7e00;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover .icon i {
+            color: white;
+        }
+
+        .info-item .content {
+            flex-grow: 1;
+        }
+
+        .info-item h3 {
+            margin-top: 0;
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+            color: #333;
+        }
+
+        .info-item p {
+            margin: 0;
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item p:last-child {
+            margin-bottom: 0;
+        }
+
+        .social-connect h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .social-connect .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-connect .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background-color: rgba(255, 126, 0, 0.1);
+            color: #ff7e00;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-connect .social-links a:hover {
+            transform: translateY(-5px);
+        }
+
+        .social-connect .social-links a.facebook:hover {
+            background-color: #1877f2;
+            color: white;
+        }
+
+        .social-connect .social-links a.twitter:hover {
+            background-color: #1da1f2;
+            color: white;
+        }
+
+        .social-connect .social-links a.instagram:hover {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            color: white;
+        }
+
+        .social-connect .social-links a.youtube:hover {
+            background-color: #ff0000;
+            color: white;
+        }
+
+        .social-connect .social-links a.linkedin:hover {
+            background-color: #0077b5;
+            color: white;
+        }
+
+        /* Contact Form */
+        .contact-form-container {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-form-container p {
+            margin-bottom: 2rem;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .contact-form .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-form .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-form .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .contact-form label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .contact-form input, .contact-form textarea, .contact-form select {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            color: #333;
+        }
+
+        .contact-form input:focus, .contact-form textarea:focus, .contact-form select:focus {
+            outline: none;
+            border-color: #ff7e00;
+            box-shadow: 0 0 0 3px rgba(255, 126, 0, 0.1);
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .contact-form .required {
+            color: #e74c3c;
+        }
+
+        .contact-form button {
+            padding: 1rem 2rem;
+            background-color: #ff7e00;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-form button:hover {
+            background-color: #e06d00;
+            transform: translateY(-2px);
+        }
+
+        .contact-form button i {
+            font-size: 1.2rem;
+        }
+
+        /* Map Section */
+        .map-section {
+            padding: 4rem 0;
+            background-color: white;
+        }
+
+        .map-section h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+            display: inline-block;
+            color: #333;
+        }
+
+        .map-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: #ff7e00;
+        }
+
+        .map-container {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            height: 450px;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 4rem 0;
+            background-color: #f8f9fa;
+        }
+
+        .faq-section h2 {
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+            display: inline-block;
+            color: #333;
+        }
+
+        .faq-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: #ff7e00;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background-color: white;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background-color: rgba(255, 126, 0, 0.05);
+        }
+
+        .faq-question h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .toggle-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff7e00;
+            transition: all 0.3s ease;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            display: none;
+        }
+
+        .faq-answer p {
+            margin: 0;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .faq-item.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        /* CTA Section */
+        .cta {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/static/images/cta-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 5rem 0;
+            text-align: center;
+            color: white;
+            margin-bottom: 0;
+        }
+
+        .cta-content h2 {
+            font-size: 2.5rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .cta-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+
+        .cta .btn-primary {
+            background-color: #ff7e00;
+            color: white;
+            border: 2px solid #ff7e00;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cta .btn-primary:hover {
+            background-color: transparent;
+            color: white;
+        }
+
+        .cta .btn-primary i {
+            font-size: 1.2rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .contact-info-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-form-container {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .contact-form .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            
+            .map-container {
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .contact-form-container, .info-item {
+                padding: 1.5rem;
+            }
+            
+            .contact-info h2, .contact-form-container h2, .map-section h2, .faq-section h2 {
+                font-size: 1.8rem;
+            }
+            
+            .cta-content h2 {
+                font-size: 2rem;
+            }
+            
+            .cta-content p {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="/">TravelVN</a></h1>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/">Trang chủ</a></li>
+                    <li><a href="/tours">Tours</a></li>
+                    <li><a href="/gioithieu">Giới thiệu</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                    <li><a href="/lienhe" class="active">Liên hệ</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-actions">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Tìm kiếm tour...">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                
+                <div class="auth-buttons" id="auth-buttons">
+                    <a href="/login" class="btn btn-outline">Đăng nhập</a>
+                    <a href="/register" class="btn btn-primary">Đăng ký</a>
+                </div>
+                
+                <div class="user-menu" id="user-menu" style="display: none;">
+                    <a href="#" id="user-dropdown">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="user-name">Tài khoản</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <div class="dropdown-menu" id="user-dropdown-menu">
+                        <a href="/profile"><i class="fas fa-user"></i> Tài khoản</a>
+                        <a href="/bookings"><i class="fas fa-list"></i> Đơn đặt tour</a>
+                        <a href="/wishlist"><i class="fas fa-heart"></i> Yêu thích</a>
+                        <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <h1>Liên hệ với chúng tôi</h1>
+            <div class="breadcrumb">
+                <a href="/">Trang chủ</a> / <span>Liên hệ</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-info-container">
+                <div class="contact-info">
+                    <h2>Thông tin liên hệ</h2>
+                    <p>Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn. Hãy liên hệ với chúng tôi qua các kênh dưới đây hoặc gửi tin nhắn trực tiếp qua form liên hệ.</p>
+                    
+                    <div class="info-items">
+                        <div class="info-item">
+                            <div class="icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="content">
+                                <h3>Địa chỉ</h3>
+                                <p>123 Đường ABC, Quận XYZ</p>
+                                <p>TP. Hồ Chí Minh, Việt Nam</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div class="content">
+                                <h3>Điện thoại</h3>
+                                <p>+84 123 456 789</p>
+                                <p>+84 987 654 321</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="content">
+                                <h3>Email</h3>
+                                <p>info@travelvn.com</p>
+                                <p>support@travelvn.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="content">
+                                <h3>Giờ làm việc</h3>
+                                <p>Thứ Hai - Thứ Sáu: 8:00 - 18:00</p>
+                                <p>Thứ Bảy: 8:00 - 12:00</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="social-connect">
+                        <h3>Kết nối với chúng tôi</h3>
+                        <div class="social-links">
+                            <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="youtube"><i class="fab fa-youtube"></i></a>
+                            <a href="#" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form-container">
+                    <h2>Gửi tin nhắn cho chúng tôi</h2>
+                    <p>Hãy điền thông tin của bạn vào form dưới đây, chúng tôi sẽ liên hệ lại trong thời gian sớm nhất.</p>
+                    
+                    <form class="contact-form" id="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Họ và tên <span class="required">*</span></label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email <span class="required">*</span></label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone">Số điện thoại</label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="subject">Chủ đề <span class="required">*</span></label>
+                                <select id="subject" name="subject" required>
+                                    <option value="">-- Chọn chủ đề --</option>
+                                    <option value="booking">Đặt tour</option>
+                                    <option value="inquiry">Thông tin tour</option>
+                                    <option value="feedback">Góp ý</option>
+                                    <option value="support">Hỗ trợ kỹ thuật</option>
+                                    <option value="other">Khác</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Nội dung tin nhắn <span class="required">*</span></label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit">
+                                <i class="fas fa-paper-plane"></i>
+                                Gửi tin nhắn
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Vị trí của chúng tôi</h2>
+            
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.4241674197667!2d106.69173157486835!3d10.780260089318513!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f38f9ed887b%3A0x14aded5703768989!2zUGjhu5EgxJDhu5NuZyBLaOG7n2ksIFF14bqtbiAxLCBUaMOgbmggcGjhu5EgSOG7kyBDaMOtIE1pbmgsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1684123456789!5m2!1svi!2s" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 3rem;">Câu hỏi thường gặp</h2>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Làm thế nào để đặt tour trên website?</h3>
+                        <div class="toggle-icon">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Để đặt tour trên website, bạn chỉ cần chọn tour mà bạn quan tâm, nhấp vào nút "Đặt tour", chọn ngày khởi hành và số lượng khách, sau đó điền thông tin cá nhân và thanh toán. Sau khi hoàn tất, bạn sẽ nhận được email xác nhận đặt tour.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Tôi có thể thanh toán bằng những phương thức nào?</h3>
+                        <div class="toggle-icon">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Chúng tôi chấp nhận nhiều phương thức thanh toán khác nhau bao gồm: thẻ tín dụng/ghi nợ (Visa, MasterCard, JCB), chuyển khoản ngân hàng, ví điện tử (MoMo, ZaloPay, VNPay) và thanh toán trực tiếp tại văn phòng của chúng tôi.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Chính sách hủy tour của TravelVN như thế nào?</h3>
+                        <div class="toggle-icon">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Chính sách hủy tour của chúng tôi như sau: Hủy trước 30 ngày: hoàn 100% tiền cọc; Hủy trước 15-29 ngày: hoàn 70% tiền cọc; Hủy trước 7-14 ngày: hoàn 50% tiền cọc; Hủy trước 3-6 ngày: hoàn 30% tiền cọc; Hủy trong vòng 48 giờ: không hoàn tiền. Lưu ý rằng một số tour đặc biệt có thể có chính sách hủy khác, vui lòng kiểm tra thông tin chi tiết khi đặt tour.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Tôi có cần visa khi đi tour nước ngoài không?</h3>
+                        <div class="toggle-icon">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Đối với các tour nước ngoài, yêu cầu visa phụ thuộc vào quốc gia bạn đến và quốc tịch của bạn. Chúng tôi sẽ cung cấp thông tin chi tiết về yêu cầu visa khi bạn đặt tour. Ngoài ra, chúng tôi cũng có dịch vụ hỗ trợ làm visa với chi phí phụ thu.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Tôi có thể đặt tour theo yêu cầu riêng không?</h3>
+                        <div class="toggle-icon">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Vâng, chúng tôi cung cấp dịch vụ thiết kế tour theo yêu cầu riêng. Bạn có thể liên hệ với chúng tôi qua form liên hệ hoặc gọi điện trực tiếp để được tư vấn và báo giá cho tour theo yêu cầu của bạn.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Bạn cần tư vấn thêm?</h2>
+                <p>Đội ngũ chuyên viên tư vấn của chúng tôi luôn sẵn sàng hỗ trợ bạn 24/7</p>
+                <a href="tel:+84123456789" class="btn btn-primary">
+                    <i class="fas fa-phone-alt"></i>
+                    Gọi ngay: +84 123 456 789
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>TravelVN</h3>
+                    <p>Chúng tôi cung cấp các tour du lịch chất lượng cao với giá cả hợp lý, mang đến cho bạn những trải nghiệm du lịch đáng nhớ.</p>
+                    
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Liên kết nhanh</h3>
+                    <ul>
+                        <li><a href="/">Trang chủ</a></li>
+                        <li><a href="/tours">Tours</a></li>
+                        <li><a href="/gioithieu">Giới thiệu</a></li>
+                        <li><a href="/blog">Blog</a></li>
+                        <li><a href="/lienhe">Liên hệ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Loại tour</h3>
+                    <ul>
+                        <li><a href="/tours?category=1">Tour trong nước</a></li>
+                        <li><a href="/tours?category=2">Tour nước ngoài</a></li>
+                        <li><a href="/tours?category=3">Tour nghỉ dưỡng</a></li>
+                        <li><a href="/tours?category=4">Tour mạo hiểm</a></li>
+                        <li><a href="/tours?category=5">Tour văn hóa</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Liên hệ</h3>
+                    <ul class="contact-info">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+84 123 456 789</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>info@travelvn.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 TravelVN. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/static/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mainNav = document.querySelector('.main-nav');
+            
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mainNav.classList.toggle('active');
+                });
+            }
+            
+            // User dropdown toggle
+            const userDropdown = document.getElementById('user-dropdown');
+            const userDropdownMenu = document.getElementById('user-dropdown-menu');
+            
+            if (userDropdown && userDropdownMenu) {
+                userDropdown.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    userDropdownMenu.style.display = userDropdownMenu.style.display === 'block' ? 'none' : 'block';
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!userDropdown.contains(e.target) && !userDropdownMenu.contains(e.target)) {
+                        userDropdownMenu.style.display = 'none';
+                    }
+                });
+            }
+            
+            // FAQ toggle
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const faqItem = this.parentElement;
+                    const answer = this.nextElementSibling;
+                    
+                    // Toggle active class
+                    faqItem.classList.toggle('active');
+                    
+                    // Toggle display of answer
+                    if (answer.style.display === 'block') {
+                        answer.style.display = 'none';
+                    } else {
+                        answer.style.display = 'block';
+                    }
+                });
+            });
+            
+            // Contact form submission
+            const contactForm = document.getElementById('contact-form');
+            
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get form data
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const phone = document.getElementById('phone').value;
+                    const subject = document.getElementById('subject').value;
+                    const message = document.getElementById('message').value;
+                    
+                    // Here you would typically send the data to your server
+                    // For demonstration, we'll just log it and show an alert
+                    console.log({
+                        name,
+                        email,
+                        phone,
+                        subject,
+                        message
+                    });
+                    
+                    alert('Cảm ơn bạn đã liên hệ với chúng tôi! Chúng tôi sẽ phản hồi trong thời gian sớm nhất.');
+                    
+                    // Reset form
+                    contactForm.reset();
+                });
+            }
+        });
+    </script>
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/direct-logout.js"></script>
+</body>
+</html>
